@@ -21,6 +21,8 @@ class MainScene : Scene() {
 
         val manUpBitmap = resourcesVfs["Pieces/Man/Man [Up] [T].png"].readBitmapSlice() //.readBitmap()
         val manDownBitmap = resourcesVfs["Pieces/Man/Man [Down] [T].png"].readBitmapSlice() //.readBitmap()
+        val manLeftBitmap = resourcesVfs["Pieces/Man/Man [Left] [T].png"].readBitmapSlice()
+        val manRightBitmap = resourcesVfs["Pieces/Man/Man [Right] [T].png"].readBitmapSlice()
 
         val player = Player(manUpBitmap);
 
@@ -36,10 +38,12 @@ class MainScene : Scene() {
         player.addUpdater {
 
             if (input.keys[Key.LEFT]) {
+                player.changeCell(manLeftBitmap);
                 x -= 1
             }
 
             if (input.keys[Key.RIGHT]) {
+                player.changeCell(manRightBitmap);
                 x += 1
             }
 
