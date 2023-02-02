@@ -11,29 +11,15 @@ import com.soywiz.korma.geom.*
  */
 class MainScene : Scene() {
     override suspend fun SContainer.sceneMain() {
-        val minDegrees = (-16).degrees
-        val maxDegrees = (+16).degrees
-
-        val UP = 0
-        val RIGHT = 1
-        val DOWN = 3
-        val LEFT = 4
 
         val manUpBitmap = resourcesVfs["Pieces/Man/Man [Up] [T].png"].readBitmapSlice() //.readBitmap()
         val manDownBitmap = resourcesVfs["Pieces/Man/Man [Down] [T].png"].readBitmapSlice() //.readBitmap()
         val manLeftBitmap = resourcesVfs["Pieces/Man/Man [Left] [T].png"].readBitmapSlice()
         val manRightBitmap = resourcesVfs["Pieces/Man/Man [Right] [T].png"].readBitmapSlice()
 
-        val player = Player(manUpBitmap);
-
-        player.position(256, 256)
-        addChild(player)
-
-//        fun changeCell(player: Player, bitmap: BmpSlice) {
-//            player.image?.bitmap = bitmap
-//        }
-
-        //image.set
+        val player: Player = player(manUpBitmap) {
+            position(256, 256)
+        }
 
         player.addUpdater {
 
@@ -49,7 +35,6 @@ class MainScene : Scene() {
 
             if (input.keys[Key.UP]) {
                 player.changeCell(manUpBitmap)
-                //image.bitmapSrc = manUpBitmap;
                 y -= 1
             }
 
@@ -62,8 +47,5 @@ class MainScene : Scene() {
 
     }
 
-//    fun Container.changeCell(bitmap: BmpSlice) {
-//        val image = this as? Image?
-//        image?.bitmap = bitmap
-//    }
+
 }
