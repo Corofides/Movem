@@ -30,7 +30,9 @@ Year of release: 1989
 
 ### Progress
 
-Create a scene, create a player, allow movement in four cardinal directions, change images to reflect movement.
+Create a scene, create a player, allow movement in four cardinal directions, change images to reflect movement. Started adding a background.
+
+![Progress](docs/images/progress/2.png "Progress")
 
 ## Contributors
 
