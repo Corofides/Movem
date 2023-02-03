@@ -2,6 +2,7 @@ import com.soywiz.korge.gradle.*
 
 plugins {
 	alias(libs.plugins.korge)
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 korge {
