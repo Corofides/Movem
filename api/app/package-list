@@ -1,0 +1,13 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/app/[root]/index.html
+$dokka.location://main/#/PointingToDeclaration/app/[root]/main.html
+$dokka.location://player/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]#kotlin.Function1[Player,kotlin.Unit]/PointingToDeclaration/app/[root]/player.html
+$dokka.location:/MainScene///PointingToDeclaration/app/[root]/-main-scene/index.html
+$dokka.location:/MainScene/MainScene/#/PointingToDeclaration/app/[root]/-main-scene/-main-scene.html
+$dokka.location:/MainScene/sceneMain/com.soywiz.korge.view.SContainer#/PointingToDeclaration/app/[root]/-main-scene/scene-main.html
+$dokka.location:/Player///PointingToDeclaration/app/[root]/-player/index.html
+$dokka.location:/Player/Player/#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]/PointingToDeclaration/app/[root]/-player/-player.html
+$dokka.location:/Player/changeCell/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BmpSlice/PointingToDeclaration/app/[root]/-player/change-cell.html
+
+
