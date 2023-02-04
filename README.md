@@ -13,6 +13,19 @@
 
 Game being worked on by [James Lendrem](https://github.com/Corofides/) and [Alex Hedley](https://github.com/alexhedley/)
 
+## Docs
+
+- [Docs](docs/README.md)
+- [api](https://corofides.github.io/Movem/api/) LIVE
+- [tests](https://corofides.github.io/Movem/tests/) LIVE
+- [coverage](https://corofides.github.io/Movem/coverage/) LIVE
+
+### Progress
+
+Create a scene, create a player, allow movement in four cardinal directions, change images to reflect movement. Started adding a background.
+
+![Progress](docs/images/progress/2.png "Progress")
+
 ## Info
 
 Coder : Hironymus Jumpshoe
@@ -25,23 +38,8 @@ Year of release: 1989
 
 - [Hall Of Light](https://hol.abime.net/4770)
 
-## Docs
-
-- [Docs](docs/README.md)
-- [api](https://corofides.github.io/Movem/api/) LIVE
-- [tests](https://corofides.github.io/Movem/tests/) LIVE
-- [coverage](https://corofides.github.io/Movem/coverage/) LIVE
-
-## Changelog
+## More
 
 - [Changelog](CHANGELOG.md)
-
-### Progress
-
-Create a scene, create a player, allow movement in four cardinal directions, change images to reflect movement. Started adding a background.
-
-![Progress](docs/images/progress/2.png "Progress")
-
-## Contributors
-
 - [Contributors](CONTRIBUTORS.md)
+- [Acknowledgements](ACKNOWLEDGEMENTS.md)
