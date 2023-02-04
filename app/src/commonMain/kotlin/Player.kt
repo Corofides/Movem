@@ -1,3 +1,4 @@
+import Interfaces.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
 
@@ -13,9 +14,9 @@ inline fun Container.player(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMa
  * @param mainImage The image to display for the main Player
  * @return Container The view that is the Player
  */
-class Player(
+class Player (
     mainImage: BitmapSlice<Bitmap>
-): Container() {
+) : Moveable, Container() {
     private val image: Image = image(mainImage);
 
     init {
@@ -27,4 +28,18 @@ class Player(
     fun Container.changeCell(bitmap: BmpSlice) {
         image.bitmap = bitmap
     }
+
+    override fun move(x: Double, y: Double) {
+        this.x += x;
+        this.y += y;
+    }
+
+    override fun getPositionX(): Double {
+        return this.x;
+    }
+
+    override fun getPositionY(): Double {
+        return this.y;
+    }
+
 }
