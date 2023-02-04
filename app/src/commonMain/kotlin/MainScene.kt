@@ -1,4 +1,5 @@
 import Commands.*
+import com.soywiz.klock.*
 import com.soywiz.korev.*
 import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
@@ -28,7 +29,7 @@ class MainScene : Scene() {
         val commandList: MutableList<Command> = mutableListOf();
         var commandPosition = 0;
 
-        player.addUpdater {
+        player.addFixedUpdater(30.timesPerSecond) {
             if (input.keys[Key.LEFT]) {
                 player.changeCell(manLeftBitmap);
                 commandList.add(MoveCommand(player, -1.0, 0.0));

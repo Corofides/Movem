@@ -1,3 +1,4 @@
+import Enums.*
 import Interfaces.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
@@ -27,6 +28,25 @@ class Player (
 
     fun Container.changeCell(bitmap: BmpSlice) {
         image.bitmap = bitmap
+    }
+
+    override fun move(direction: Direction) {
+
+        when(direction) {
+            Direction.NORTH -> {
+                this.y -= 1;
+            }
+            Direction.SOUTH -> {
+                this.y += 1;
+            }
+            Direction.EAST -> {
+                this.x += 1;
+            }
+            Direction.WEST -> {
+                this.x -= 1;
+            }
+        }
+
     }
 
     override fun move(x: Double, y: Double) {
