@@ -6,6 +6,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](https://opensource.org/licenses/mit)
 
+[![Build API Docs](https://github.com/Corofides/Movem/actions/workflows/docs.yml/badge.svg)](https://github.com/Corofides/Movem/actions/workflows/docs.yml)
+[![Kotlin CI with Gradle](https://github.com/Corofides/Movem/actions/workflows/build.yml/badge.svg)](https://github.com/Corofides/Movem/actions/workflows/build.yml)
+[![Tests (with Reports)](https://github.com/Corofides/Movem/actions/workflows/tests.yml/badge.svg)](https://github.com/Corofides/Movem/actions/workflows/tests.yml)
+[![pages-build-deployment](https://github.com/Corofides/Movem/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Corofides/Movem/actions/workflows/pages/pages-build-deployment)
+
 Game being worked on by [James Lendrem](https://github.com/Corofides/) and [Alex Hedley](https://github.com/alexhedley/)
 
 ## Info
@@ -24,6 +29,8 @@ Year of release: 1989
 
 - [Docs](docs/README.md)
 - [api](https://corofides.github.io/Movem/api/) LIVE
+- [tests](https://corofides.github.io/Movem/tests/) LIVE
+- [coverage](https://corofides.github.io/Movem/coverage/) LIVE
 
 ## Changelog
 
