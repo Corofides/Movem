@@ -67,7 +67,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/14)
   </span>
 </td>
 <td class="coverageStat">
@@ -75,7 +75,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/177)
+    (0/188)
   </span>
 </td>
 </tr>
@@ -98,7 +98,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/8)
+    (0/10)
   </span>
 </td>
 <td class="coverageStat">
@@ -106,7 +106,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/15)
   </span>
 </td>
 <td class="coverageStat">
@@ -114,7 +114,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/88)
+    (0/133)
   </span>
 </td>
   </tr>
@@ -133,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/18)
+    (0/20)
   </span>
 </td>
 <td class="coverageStat">
@@ -141,7 +141,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/24)
+    (0/29)
   </span>
 </td>
 <td class="coverageStat">
@@ -149,7 +149,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/265)
+    (0/321)
   </span>
 </td>
 </tr>
@@ -160,7 +160,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;import com.soywiz.korev.*
+<code class="sourceCode" id="sourceCode">&nbsp;import Commands.*
+&nbsp;import com.soywiz.korev.*
 &nbsp;import com.soywiz.korge.scene.*
 &nbsp;import com.soywiz.korge.view.*
 &nbsp;import com.soywiz.korim.format.*
@@ -186,23 +187,33 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            position(256, 256)</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;
+<b class="nc">&nbsp;        val commandList: MutableList&lt;Command&gt; = mutableListOf();</b>
+<b class="nc">&nbsp;        var commandPosition = 0;</b>
+&nbsp;
 <b class="nc">&nbsp;        player.addUpdater {</b>
 <b class="nc">&nbsp;            if (input.keys[Key.LEFT]) {</b>
 <b class="nc">&nbsp;                player.changeCell(manLeftBitmap);</b>
-<b class="nc">&nbsp;                x -= 1</b>
+<b class="nc">&nbsp;                commandList.add(MoveCommand(player, -1.0, 0.0));</b>
 &nbsp;            }
 <b class="nc">&nbsp;            if (input.keys[Key.RIGHT]) {</b>
 <b class="nc">&nbsp;                player.changeCell(manRightBitmap);</b>
-<b class="nc">&nbsp;                x += 1</b>
+<b class="nc">&nbsp;                commandList.add(MoveCommand(player, 1.0, 0.0));</b>
 &nbsp;            }
 <b class="nc">&nbsp;            if (input.keys[Key.UP]) {</b>
 <b class="nc">&nbsp;                player.changeCell(manUpBitmap)</b>
-<b class="nc">&nbsp;                y -= 1</b>
+<b class="nc">&nbsp;                commandList.add(MoveCommand(player, 0.0, -1.0));</b>
 &nbsp;            }
 <b class="nc">&nbsp;            if (input.keys[Key.DOWN]) {</b>
 <b class="nc">&nbsp;                player.changeCell(manDownBitmap)</b>
-<b class="nc">&nbsp;                y += 1</b>
+<b class="nc">&nbsp;                commandList.add(MoveCommand(player, 0.0, 1.0));</b>
 &nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            for (i in commandPosition until(commandList.size)) {</b>
+<b class="nc">&nbsp;                commandList[i].exec();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            commandPosition = commandList.size;</b>
+&nbsp;
 &nbsp;        }
 &nbsp;    }
 &nbsp;}
@@ -229,7 +240,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-02-04 14:21</div>
+    <div style="float:right;">generated on 2023-02-04 22:42</div>
 </div>
 </body>
 </html>

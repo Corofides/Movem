@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Player</title>
+  <title>Coverage Report > MoveCommand</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">&lt;empty package name&gt;</a>
+    <a href="../index.html">Commands</a>
 </div>
 
-<h1>Coverage Summary for Class: Player (&lt;empty package name&gt;)</h1>
+<h1>Coverage Summary for Class: MoveCommand (Commands)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -48,7 +48,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Player</td>
+  <td class="name">MoveCommand</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/5)
+    (0/3)
   </span>
 </td>
     <td class="coverageStat"/>
@@ -71,7 +71,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/10)
   </span>
 </td>
 <td class="coverageStat">
@@ -79,7 +79,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/53)
+    (0/38)
   </span>
 </td>
 </tr>
@@ -91,48 +91,38 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;import Interfaces.*
-&nbsp;import com.soywiz.korge.view.*
-&nbsp;import com.soywiz.korim.bitmap.*
+<code class="sourceCode" id="sourceCode">&nbsp;package Commands
 &nbsp;
-&nbsp;/**
-&nbsp; * player
-&nbsp; */
-&nbsp;inline fun Container.player(mainImage: BitmapSlice&lt;Bitmap&gt;, callback: @ViewDslMarker Player.() -&gt; Unit = {}) =
-&nbsp;    Player(mainImage).addTo(this, callback)
+&nbsp;import Interfaces.*
 &nbsp;
-&nbsp;/**
-&nbsp; * Player
-&nbsp; *
-&nbsp; * @param mainImage The image to display for the main Player
-&nbsp; * @return Container The view that is the Player
-&nbsp; */
-&nbsp;class Player (
-&nbsp;    mainImage: BitmapSlice&lt;Bitmap&gt;
-<b class="nc">&nbsp;) : Moveable, Container() {</b>
-<b class="nc">&nbsp;    private val image: Image = image(mainImage);</b>
+<b class="nc">&nbsp;class MoveCommand (</b>
+&nbsp;    actor: Moveable,
+&nbsp;    x: Double,
+&nbsp;    y: Double,
+&nbsp;): Command {
 &nbsp;
-<b class="nc">&nbsp;    init {</b>
-<b class="nc">&nbsp;        image.anchor(.5, .5);</b>
-<b class="nc">&nbsp;        image.scale(0.8);</b>
-<b class="nc">&nbsp;        image.position(0, 0);</b>
-<b class="nc">&nbsp;    }</b>
+<b class="nc">&nbsp;    private val actor: Moveable = actor;</b>
+<b class="nc">&nbsp;    private var x: Double = x;</b>
+<b class="nc">&nbsp;    private var y: Double = y;</b>
 &nbsp;
-&nbsp;    fun Container.changeCell(bitmap: BmpSlice) {
-<b class="nc">&nbsp;        image.bitmap = bitmap</b>
+&nbsp;    private var _previousX: Double = 0.0;
+&nbsp;    private var _previousY: Double = 0.0;
+&nbsp;
+&nbsp;    override fun exec() {
+&nbsp;
+<b class="nc">&nbsp;        _previousX = actor.getPositionX();</b>
+<b class="nc">&nbsp;        _previousY = actor.getPositionY();</b>
+&nbsp;
+<b class="nc">&nbsp;        actor.move(x, y);</b>
+&nbsp;
 &nbsp;    }
 &nbsp;
-&nbsp;    override fun move(x: Double, y: Double) {
-<b class="nc">&nbsp;        this.x += x;</b>
-<b class="nc">&nbsp;        this.y += y;</b>
-&nbsp;    }
+&nbsp;    override fun undo() {
 &nbsp;
-&nbsp;    override fun getPositionX(): Double {
-<b class="nc">&nbsp;        return this.x;</b>
-&nbsp;    }
+<b class="nc">&nbsp;        x = _previousX;</b>
+<b class="nc">&nbsp;        y = _previousY;</b>
 &nbsp;
-&nbsp;    override fun getPositionY(): Double {
-<b class="nc">&nbsp;        return this.y;</b>
+<b class="nc">&nbsp;        exec();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;}

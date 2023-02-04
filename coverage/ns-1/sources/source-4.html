@@ -127,7 +127,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;import com.soywiz.korge.view.*
+<code class="sourceCode" id="sourceCode">&nbsp;import Interfaces.*
+&nbsp;import com.soywiz.korge.view.*
 &nbsp;import com.soywiz.korim.bitmap.*
 &nbsp;
 &nbsp;/**
@@ -142,9 +143,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * @param mainImage The image to display for the main Player
 &nbsp; * @return Container The view that is the Player
 &nbsp; */
-&nbsp;class Player(
+&nbsp;class Player (
 &nbsp;    mainImage: BitmapSlice&lt;Bitmap&gt;
-&nbsp;): Container() {
+&nbsp;) : Moveable, Container() {
 &nbsp;    private val image: Image = image(mainImage);
 &nbsp;
 &nbsp;    init {
@@ -156,6 +157,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    fun Container.changeCell(bitmap: BmpSlice) {
 &nbsp;        image.bitmap = bitmap
 &nbsp;    }
+&nbsp;
+&nbsp;    override fun move(x: Double, y: Double) {
+&nbsp;        this.x += x;
+&nbsp;        this.y += y;
+&nbsp;    }
+&nbsp;
+&nbsp;    override fun getPositionX(): Double {
+&nbsp;        return this.x;
+&nbsp;    }
+&nbsp;
+&nbsp;    override fun getPositionY(): Double {
+&nbsp;        return this.y;
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -180,7 +195,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-02-04 14:21</div>
+    <div style="float:right;">generated on 2023-02-04 22:42</div>
 </div>
 </body>
 </html>
