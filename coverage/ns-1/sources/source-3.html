@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;import com.soywiz.korge.view.*
+&nbsp;import com.soywiz.korim.bitmap.*
+&nbsp;
+&nbsp;/**
+&nbsp; * player
+&nbsp; */
+&nbsp;inline fun Container.player(mainImage: BitmapSlice&lt;Bitmap&gt;, callback: @ViewDslMarker Player.() -&gt; Unit = {}) =
+&nbsp;    Player(mainImage).addTo(this, callback)
+&nbsp;
+&nbsp;/**
+&nbsp; * Player
+&nbsp; *
+&nbsp; * @param mainImage The image to display for the main Player
+&nbsp; * @return Container The view that is the Player
+&nbsp; */
+&nbsp;class Player(
+&nbsp;    mainImage: BitmapSlice&lt;Bitmap&gt;
+<b class="nc">&nbsp;): Container() {</b>
+<b class="nc">&nbsp;    private val image: Image = image(mainImage);</b>
+&nbsp;
+<b class="nc">&nbsp;    init {</b>
+<b class="nc">&nbsp;        image.anchor(.5, .5);</b>
+<b class="nc">&nbsp;        image.scale(0.8);</b>
+<b class="nc">&nbsp;        image.position(0, 0);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    fun Container.changeCell(bitmap: BmpSlice) {
+<b class="nc">&nbsp;        image.bitmap = bitmap</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-04 14:21</div>
+</div>
+</body>
+</html>
