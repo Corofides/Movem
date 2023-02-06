@@ -6,7 +6,7 @@ import com.soywiz.korim.bitmap.*
 /**
  * player
  */
-inline fun Container.player(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Player.() -> Unit = {}) =
+inline fun Container.player(mainImage: Array<BitmapSlice<Bitmap>>, callback: @ViewDslMarker Player.() -> Unit = {}) =
     Player(mainImage).addTo(this, callback)
 
 /**
@@ -16,9 +16,10 @@ inline fun Container.player(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMa
  * @return Container The view that is the Player
  */
 class Player (
-    mainImage: BitmapSlice<Bitmap>
+    playerSprites: Array<BitmapSlice<Bitmap>>
 ) : Moveable, Container() {
-    private val image: Image = image(mainImage);
+    private val image: Image = image(playerSprites[Direction.NORTH.ordinal]);
+    private val playerSprites = playerSprites;
 
     init {
         image.anchor(.5, .5);
@@ -26,11 +27,13 @@ class Player (
         image.position(0, 0);
     }
 
-    fun Container.changeCell(bitmap: BmpSlice) {
-        image.bitmap = bitmap
+    private fun Container.changeCell(direction: Direction) {
+        image.bitmap = playerSprites[direction.ordinal]//bitmap
     }
 
     override fun move(direction: Direction) {
+
+        changeCell(direction);
 
         when(direction) {
             Direction.NORTH -> {

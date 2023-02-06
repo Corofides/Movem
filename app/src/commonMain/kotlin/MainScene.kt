@@ -5,6 +5,7 @@ import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import Enums.*
 
 /**
  * Main Scene
@@ -14,15 +15,22 @@ class MainScene : Scene() {
      * Scene Main
      */
     override suspend fun SContainer.sceneMain() {
-        val manUpBitmap = resourcesVfs["Pieces/Man/Man [Up] [T].png"].readBitmapSlice()
-        val manDownBitmap = resourcesVfs["Pieces/Man/Man [Down] [T].png"].readBitmapSlice()
-        val manLeftBitmap = resourcesVfs["Pieces/Man/Man [Left] [T].png"].readBitmapSlice()
-        val manRightBitmap = resourcesVfs["Pieces/Man/Man [Right] [T].png"].readBitmapSlice()
+
+        val playerSprites = arrayOf(
+            // North
+            resourcesVfs["Pieces/Man/Man [Up] [T].png"].readBitmapSlice(),
+            // East
+            resourcesVfs["Pieces/Man/Man [Right] [T].png"].readBitmapSlice(),
+            // South
+            resourcesVfs["Pieces/Man/Man [Down] [T].png"].readBitmapSlice(),
+            // West
+            resourcesVfs["Pieces/Man/Man [Left] [T].png"].readBitmapSlice(),
+        )
 
         val backgroundBitmap = resourcesVfs["Pieces/Background/Background.png"].readBitmapSlice()
         image(backgroundBitmap)
 
-        val player: Player = player(manUpBitmap) {
+        val player: Player = player(playerSprites) {
             position(256, 256)
         }
 
@@ -31,20 +39,13 @@ class MainScene : Scene() {
 
         player.addFixedUpdater(30.timesPerSecond) {
             if (input.keys[Key.LEFT]) {
-                player.changeCell(manLeftBitmap);
-                commandList.add(MoveCommand(player, -1.0, 0.0));
-            }
-            if (input.keys[Key.RIGHT]) {
-                player.changeCell(manRightBitmap);
-                commandList.add(MoveCommand(player, 1.0, 0.0));
-            }
-            if (input.keys[Key.UP]) {
-                player.changeCell(manUpBitmap)
-                commandList.add(MoveCommand(player, 0.0, -1.0));
-            }
-            if (input.keys[Key.DOWN]) {
-                player.changeCell(manDownBitmap)
-                commandList.add(MoveCommand(player, 0.0, 1.0));
+                commandList.add(MoveCommand(player, Direction.WEST));
+            } else if (input.keys[Key.RIGHT]) {
+                commandList.add(MoveCommand(player, Direction.EAST));
+            } else if (input.keys[Key.UP]) {
+                commandList.add(MoveCommand(player, Direction.NORTH));
+            } else if (input.keys[Key.DOWN]) {
+                commandList.add(MoveCommand(player, Direction.SOUTH));
             }
 
             for (i in commandPosition until(commandList.size)) {
