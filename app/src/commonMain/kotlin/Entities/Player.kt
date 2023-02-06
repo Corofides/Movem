@@ -1,19 +1,21 @@
+package Entities
+
 import Enums.*
 import Interfaces.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
 
 /**
- * player
+ * Entities.player
  */
 inline fun Container.player(mainImage: Array<BitmapSlice<Bitmap>>, callback: @ViewDslMarker Player.() -> Unit = {}) =
     Player(mainImage).addTo(this, callback)
 
 /**
- * Player
+ * Entities.Player
  *
- * @param mainImage The image to display for the main Player
- * @return Container The view that is the Player
+ * @param mainImage The image to display for the main Entities.Player
+ * @return Container The view that is the Entities.Player
  */
 class Player (
     playerSprites: Array<BitmapSlice<Bitmap>>
@@ -23,7 +25,7 @@ class Player (
 
     init {
         image.anchor(.5, .5);
-        image.scale(0.8);
+        image.scale(1);
         image.position(0, 0);
     }
 
@@ -50,19 +52,6 @@ class Player (
             }
         }
 
-    }
-
-    override fun move(x: Double, y: Double) {
-        this.x += x;
-        this.y += y;
-    }
-
-    override fun getPositionX(): Double {
-        return this.x;
-    }
-
-    override fun getPositionY(): Double {
-        return this.y;
     }
 
 }

@@ -1,4 +1,5 @@
 import Commands.*
+import Entities.*
 import com.soywiz.klock.*
 import com.soywiz.korev.*
 import com.soywiz.korge.scene.*
@@ -28,10 +29,15 @@ class MainScene : Scene() {
         )
 
         val backgroundBitmap = resourcesVfs["Pieces/Background/Background.png"].readBitmapSlice()
+        val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice();
         image(backgroundBitmap)
 
         val player: Player = player(playerSprites) {
             position(256, 256)
+        }
+
+        val block: Block = block(blockBitmap) {
+            position(256 + 32, 256);
         }
 
         val commandList: MutableList<Command> = mutableListOf();
