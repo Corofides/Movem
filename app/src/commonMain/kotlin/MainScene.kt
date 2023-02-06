@@ -32,6 +32,10 @@ class MainScene : Scene() {
         val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice();
         image(backgroundBitmap)
 
+        val wall: Wall = wall(backgroundBitmap) {
+            position(0, 0);
+        }
+
         val player: Player = player(playerSprites) {
             position(256, 256)
         }
