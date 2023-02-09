@@ -48,6 +48,9 @@ class MainScene : Scene() {
         var commandPosition = 0;
 
         player.addFixedUpdater(30.timesPerSecond) {
+
+            player.movementUpdateCycle();
+
             if (input.keys[Key.LEFT]) {
                 commandList.add(MoveCommand(player, Direction.WEST));
             } else if (input.keys[Key.RIGHT]) {
