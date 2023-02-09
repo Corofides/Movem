@@ -23,8 +23,9 @@ Game being worked on by [James Lendrem](https://github.com/Corofides/) and [Alex
 ### Progress
 
 Create a scene, create a player, allow movement in four cardinal directions, change images to reflect movement. Started adding a background.
+Restrict movement to 32, 32 grid based system for player, add in object that will be moveable in the future, add in view for detecting collisions with dense objects in front of player.
 
-![Progress](docs/images/progress/2.png "Progress")
+![Progress](docs/images/progress/4.png "Progress")
 
 ## Info
 
