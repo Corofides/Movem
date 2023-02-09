@@ -22,7 +22,7 @@ class Player (
 ) : Moveable, Container() {
     private val image: Image = image(playerSprites[Direction.NORTH.ordinal]);
     private val playerSprites = playerSprites;
-
+    private val detectionArea = solidRect(32, 32);
 
     override var moving: Boolean = false;
     private var movementDirection: Direction = Direction.NORTH;
@@ -33,10 +33,35 @@ class Player (
         image.anchor(.5, .5);
         image.scale(1);
         image.position(0, 0);
+
+        detectionArea.anchor(.5, .5);
+        detectionArea.scale(1);
+        detectionArea.position(0, -32);
+
+        detectionArea.onCollision {
+            //println("This is a test");
+        }
+
     }
 
-    private fun Container.changeCell(direction: Direction) {
+    private fun Container.changePlayerOrientation(direction: Direction) {
         image.bitmap = playerSprites[direction.ordinal]//bitmap
+
+        when(direction) {
+            Direction.NORTH -> {
+                detectionArea.position(0, -32);
+            }
+            Direction.SOUTH -> {
+                detectionArea.position(0, 32);
+            }
+            Direction.WEST -> {
+                detectionArea.position(-32, 0);
+            }
+            Direction.EAST -> {
+                detectionArea.position(32, 0);
+            }
+        }
+
     }
 
     fun movementUpdateCycle() {
@@ -68,7 +93,7 @@ class Player (
     override fun move(direction: Direction) {
 
         if (!moving) {
-            changeCell(direction);
+            changePlayerOrientation(direction);
             moving = true;
             movementDirection = direction;
             currentMovementAmount = 0;
