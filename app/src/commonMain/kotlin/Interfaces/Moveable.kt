@@ -4,8 +4,8 @@ import Enums.*
 
 interface Moveable {
 
-    var moving: Boolean;
+    var moving: Boolean
 
-    fun move(direction: Direction);
+    fun move(direction: Direction)
 
 }

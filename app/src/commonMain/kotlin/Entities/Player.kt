@@ -1,9 +1,12 @@
 package Entities
 
+import Commands.*
 import Enums.*
 import Interfaces.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
+import kotlin.reflect.*
+import Constants;
 
 /**
  * Entities.player
@@ -22,12 +25,17 @@ class Player (
 ) : Moveable, Container() {
     private val image: Image = image(playerSprites[Direction.NORTH.ordinal]);
     private val playerSprites = playerSprites;
-    private val detectionArea = solidRect(32, 32);
+    private val detectionArea = solidRect(Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+    // Replace with ID later.
+    private var objectInFront: Moveable? = null;
 
     override var moving: Boolean = false;
+    var preventMove: Boolean = false;
+    var objectCanMove = false;
     private var movementDirection: Direction = Direction.NORTH;
     private var currentMovementAmount: Int = 0;
-    private val allowedMovementAmount: Int = 32;
+    private val allowedMovementAmount: Int = Constants.TILE_SIZE + Constants.TILE_BUFFER;
 
     init {
         image.anchor(.5, .5);
@@ -36,10 +44,22 @@ class Player (
 
         detectionArea.anchor(.5, .5);
         detectionArea.scale(1);
-        detectionArea.position(0, -32);
+        detectionArea.position(0, -33);
 
         detectionArea.onCollision {
-            //println("This is a test");
+
+            if (it !is Dense) {
+                return@onCollision;
+            }
+
+            if (it !is Moveable) {
+                preventMove = true;
+                return@onCollision;
+            }
+
+            objectInFront = it
+            //objectCanMove = true;
+
         }
 
     }
@@ -49,22 +69,23 @@ class Player (
 
         when(direction) {
             Direction.NORTH -> {
-                detectionArea.position(0, -32);
+                detectionArea.position(0, -(Constants.TILE_SIZE + Constants.TILE_BUFFER));
             }
             Direction.SOUTH -> {
-                detectionArea.position(0, 32);
+                detectionArea.position(0, Constants.TILE_SIZE + Constants.TILE_BUFFER);
             }
             Direction.WEST -> {
-                detectionArea.position(-32, 0);
+                detectionArea.position(-(Constants.TILE_SIZE + Constants.TILE_BUFFER), 0);
             }
             Direction.EAST -> {
-                detectionArea.position(32, 0);
+                detectionArea.position(Constants.TILE_SIZE + Constants.TILE_BUFFER, 0);
             }
         }
 
     }
 
     fun movementUpdateCycle() {
+
         if (moving) {
             when (movementDirection) {
                 Direction.NORTH -> {
@@ -80,24 +101,40 @@ class Player (
                     this.x -= 1;
                 }
             }
+            currentMovementAmount++;
         }
-
-        currentMovementAmount++;
 
         if (currentMovementAmount == allowedMovementAmount) {
             moving = false;
+
+            objectInFront = null
+            objectCanMove = false
+            preventMove = false;
+
         }
 
     }
 
     override fun move(direction: Direction) {
 
-        if (!moving) {
-            changePlayerOrientation(direction);
-            moving = true;
-            movementDirection = direction;
-            currentMovementAmount = 0;
+        if (moving) {
+            return;
         }
+
+        changePlayerOrientation(direction);
+
+        if (preventMove) {
+            return;
+        }
+
+        if (objectInFront !== null) {
+            MoveCommand(objectInFront as Moveable, direction).exec();
+        }
+
+
+        moving = true;
+        movementDirection = direction;
+        currentMovementAmount = 0;
 
     }
 

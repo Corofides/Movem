@@ -41,7 +41,7 @@ class MainScene : Scene() {
         }
 
         val block: Block = block(blockBitmap) {
-            position(256 + 32, 256);
+            position(256 + 33, 256);
         }
 
         val commandList: MutableList<Command> = mutableListOf();
