@@ -1,4 +1,4 @@
-package Entities
+package entities
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*

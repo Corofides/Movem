@@ -1,11 +1,15 @@
-import Commands.*
-import Entities.*
 import com.soywiz.klock.*
 import com.soywiz.korev.*
 import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import com.soywiz.korim.font.*
+import com.soywiz.korim.bitmap.*
+import com.soywiz.korim.color.*
+
+import Commands.*
+import entities.*
 import Enums.*
 
 /**
@@ -28,12 +32,17 @@ class MainScene : Scene() {
             resourcesVfs["Pieces/Man/Man [Left] [T].png"].readBitmapSlice(),
         )
 
+        val commandList: MutableList<Command> = mutableListOf()
+        var commandPosition = 0
+
         val backgroundBitmap = resourcesVfs["Pieces/Background/Background.png"].readBitmapSlice()
-        val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice();
-        image(backgroundBitmap)
+        val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice()
+        val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
+
+//        image(backgroundBitmap)
 
         val wall: Wall = wall(backgroundBitmap) {
-            position(0, 0);
+            position(32, 32);
         }
 
         val player: Player = player(playerSprites) {
@@ -44,8 +53,66 @@ class MainScene : Scene() {
             position(256 + 33, 256);
         }
 
-        val commandList: MutableList<Command> = mutableListOf();
-        var commandPosition = 0;
+        val font = TtfFont(resourcesVfs["Movem.ttf"].readAll())
+        val fontsize = 32.0
+
+        val hud: Hud = hud(hudBitmap) {
+            position(0.0, 0.0) // 643 x 44
+
+            // Moves 0000
+//            val moves = NativeImage(643, 44).apply {
+//                val totalMovesString = commandList.size.toString().padStart(4, '0')
+//                totalMovesString.forEachIndexed  { index, element ->
+//                    getContext2d().fillText("" + element, x = 97.0 + (32.0 * index), y = 28.0, font, textSize = fontsize, color = Colors.PURPLE)
+//                }
+//            }
+//            image(moves)
+
+            // Pushes 0000
+            val pushes = NativeImage(643, 44).apply {
+                getContext2d().fillText("0", x = 337.0, y = 28.0, font, textSize = fontsize, color = Colors.PURPLE)
+                getContext2d().fillText("0", x = 369.0, y = 28.0, font, textSize = fontsize, color = Colors.PURPLE)
+            }
+            image(pushes)
+
+            // Level 00
+            val level = NativeImage(643, 44).apply {
+                getContext2d().fillText("0", x = 577.0, y = 28.0, font, textSize = fontsize, color = Colors.PURPLE)
+                getContext2d().fillText("1", x = 609.0, y = 28.0, font, textSize = fontsize, color = Colors.PURPLE)
+            }
+            image(level)
+
+        }
+
+        hud.alignBottomToBottomOf(this)
+
+        /*
+        inline fun fillText(
+            text: String,
+            x: Number,
+            y: Number,
+            font: Font? = this.font,
+            textSize: Double = this.fontSize,
+            halign: HorizontalAlign = this.horizontalAlign,
+            valign: VerticalAlign = this.verticalAlign,
+            color: Paint? = null
+        )
+         */
+
+        // https://docs.korge.org/korge/reference/font/
+//        val font = TtfFont(resourcesVfs["Movem.ttf"].readAll())
+//        val bitmap = NativeImage(643, 512).apply {
+//            getContext2d().fillText("HELLO WORLD", x = 100.0, y = 100.0, font, textSize = 100.0, color = Colors.RED)
+//        }
+//        image(bitmap)
+
+
+
+        hud.addFixedUpdater(30.timesPerSecond) {
+
+            hud.paint(commandList.size, font)
+
+        }
 
         player.addFixedUpdater(30.timesPerSecond) {
 
@@ -66,7 +133,6 @@ class MainScene : Scene() {
             }
 
             commandPosition = commandList.size;
-
         }
     }
 }
