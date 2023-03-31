@@ -136,27 +136,28 @@ class Player (
      * move
      *
      * @param direction
+     * @return boolean Whether the command was successfully.
      */
-    override fun move(direction: Direction) {
+    override fun move(direction: Direction): Boolean {
         if (objectInFront !== null) {
-            println("Wtf?")
             val command = MoveCommand(objectInFront as Moveable, direction)
             command.exec()
         }
 
         if (moving) {
-            return
+            return false
         }
 
         changePlayerOrientation(direction)
 
         if (preventMove) {
-            return
+            return false
         }
 
         moving = true
         movementDirection = direction
         currentMovementAmount = 0
+        return true
     }
 
 }

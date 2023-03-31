@@ -2,6 +2,7 @@ package entities
 
 import Enums.*
 import Interfaces.*
+
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
 
@@ -34,13 +35,15 @@ class Block (
      * init
      */
     init {
-        image.anchor(.5, .5);
-        image.scale(1);
-        image.position(0, 0);
+        image.anchor(.5, .5)
+        image.scale(1)
+        image.position(0, 0)
     }
 
+    /**
+     * Movement Update Cycle
+     */
     fun movementUpdateCycle() {
-
         if (moving) {
             when (movementDirection) {
                 Direction.NORTH -> {
@@ -57,32 +60,30 @@ class Block (
                 }
             }
             currentMovementAmount++
-
         }
 
         if (currentMovementAmount == allowedMovementAmount) {
             moving = false
         }
-
     }
 
     /**
      * move
      *
      * @param direction
+     * @return Boolean
      */
-    override fun move(direction: Direction) {
-        movementDirection = direction
-        //cur
+    override fun move(direction: Direction): Boolean {
         println("Player moved object")
+        movementDirection = direction
 
         if (moving) {
-            return
+            return false
         }
 
         moving = true
         movementDirection = direction
-        currentMovementAmount = 0;
-
+        currentMovementAmount = 0
+        return true
     }
 }
