@@ -1,16 +1,15 @@
+import Constants
+import Commands.*
+import Enums.*
+import entities.*
+
 import com.soywiz.klock.*
 import com.soywiz.korev.*
 import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
+import com.soywiz.korim.font.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
-import com.soywiz.korim.font.*
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.color.*
-
-import Commands.*
-import entities.*
-import Enums.*
 
 /**
  * Main Scene
@@ -35,29 +34,19 @@ class MainScene : Scene() {
         val commandList: MutableList<Command> = mutableListOf()
         var commandPosition = 0
         var moves = 0
-        var pushes = 0
-        var level = 1
+        val level = 1
 
         val backgroundBitmap = resourcesVfs["Pieces/Background/Background.png"].readBitmapSlice()
         val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice()
         val holderBitmap = resourcesVfs["Pieces/Holder/Holder [T].png"].readBitmapSlice()
-        val wallBitmap = resourcesVfs["Pieces/Wall/Wall [No Sides] [T].png"].readBitmapSlice()
 
         val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
 
 //        image(backgroundBitmap)
 
-        val floor: Floor = floor(backgroundBitmap) {
-            position(32, 32)
-        }
-
-        val wall1: Wall = wall(wallBitmap) {
-            position(32, 32)
-        }
-
-        val wall2: Wall = wall(wallBitmap) {
-            position(32, 64)
-        }
+//        val floor: Floor = floor(backgroundBitmap) {
+//            position(32, 32)
+//        }
 
         var index = 0
 
@@ -71,12 +60,48 @@ class MainScene : Scene() {
             position(256, 256)
         }
 
+        // region Level
+        val wallBitmap = resourcesVfs["Pieces/Wall/Wall [No Sides] [T].png"].readBitmapSlice()
+
+        val wall1: Wall = wall(wallBitmap) {
+            position(32, 32)
+        }
+
+        val wall2: Wall = wall(wallBitmap) {
+            position(32, 64)
+        }
+
+        val wall3: Wall = wall(wallBitmap) {
+            position(32, 96)
+        }
+
+        val wall4: Wall = wall(wallBitmap) {
+            position(32, 128)
+        }
+
+        val wall5: Wall = wall(wallBitmap) {
+            position(32, 160)
+        }
+
+        val wall6: Wall = wall(wallBitmap) {
+            position(32, 192)
+        }
+
+        val wall7: Wall = wall(wallBitmap) {
+            position(32, 224)
+        }
+
+        val wall8: Wall = wall(wallBitmap) {
+            position(32, 256)
+        }
+        //endregion
+
         val holder: Holder = holder(holderBitmap) {
             position(128, 128)
         }
 
         val block: Block = block(blockBitmap) {
-            position(256 + 33, 256)
+            position(256 + Constants.TILE_SIZE, 256)
         }
 
         block.addFixedUpdater(30.timesPerSecond) {
@@ -90,28 +115,30 @@ class MainScene : Scene() {
             position(0.0, 0.0) // 643 x 44
         }
 
+        block.add(hud)
+
         hud.alignBottomToBottomOf(this)
 
         hud.addFixedUpdater(30.timesPerSecond) {
-            hud.paint(moves, pushes, font)
+            hud.paint(moves, font)
         }
 
         player.addFixedUpdater(30.timesPerSecond) {
-            player.movementUpdateCycle();
+            player.movementUpdateCycle()
 
             var newCommand : MoveCommand? = null
             
             if (input.keys[Key.LEFT]) {
-                newCommand = MoveCommand(player, Direction.WEST);
+                newCommand = MoveCommand(player, Direction.WEST)
                 //commandList.add(MoveCommand(player, Direction.WEST))
             } else if (input.keys[Key.RIGHT]) {
-                newCommand = MoveCommand(player, Direction.EAST);
+                newCommand = MoveCommand(player, Direction.EAST)
                 //commandList.add(MoveCommand(player, Direction.EAST))
             } else if (input.keys[Key.UP]) {
-                newCommand = MoveCommand(player, Direction.NORTH);
+                newCommand = MoveCommand(player, Direction.NORTH)
                 //commandList.add(MoveCommand(player, Direction.NORTH))
             } else if (input.keys[Key.DOWN]) {
-                newCommand = MoveCommand(player, Direction.SOUTH);
+                newCommand = MoveCommand(player, Direction.SOUTH)
                 //commandList.add(MoveCommand(player, Direction.SOUTH))
             }
 
@@ -123,6 +150,7 @@ class MainScene : Scene() {
             }
 
         }
+
     }
 
 }

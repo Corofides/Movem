@@ -27,12 +27,13 @@ inline fun Container.hud(mainImage: BitmapSlice<Bitmap>, level: Int, callback: @
 class Hud (
     sprite: BitmapSlice<Bitmap>,
     level: Int
-) : Container() {
+) : Observer, Container() {
     // 643 x 44
 
     // Properties
     private val hudImage: Image = image(sprite)
     private val level: Int = level
+    private var pushes: Int = 0
 
     /**
      * init
@@ -47,13 +48,21 @@ class Hud (
      * paint
      *
      * @param moves
-     * @param pushes
      * @param font
      */
-    fun Container.paint(moves: Int, pushes: Int, font: TtfFont) {
+    fun Container.paint(moves: Int, font: TtfFont) {
         removeChildren()
 
         this.addChild(hudImage)
+
+        // Level 00
+        val levelImage = NativeImage(643, 44).apply {
+            val levelString = level.toString().padStart(2, '0')
+            levelString.forEachIndexed  { index, element ->
+                getContext2d().fillText("" + element, x = 577.0 + (32.0 * index), y = 28.0, font, textSize = Constants.FONT_SIZE, color = Colors.PURPLE)
+            }
+        }
+        image(levelImage)
 
         // Pushes 0000
         val pushesImage = NativeImage(643, 44).apply {
@@ -63,14 +72,6 @@ class Hud (
             }
         }
         image(pushesImage)
-        // Level 00
-        val levelImage = NativeImage(643, 44).apply {
-            val levelString = level.toString().padStart(2, '0')
-            levelString.forEachIndexed  { index, element ->
-                getContext2d().fillText("" + element, x = 577.0 + (32.0 * index), y = 28.0, font, textSize = Constants.FONT_SIZE, color = Colors.PURPLE)
-            }
-        }
-        image(levelImage)
 
         // Moves 0000
         val movesImage = NativeImage(643, 44).apply {
@@ -81,4 +82,16 @@ class Hud (
         }
         image(movesImage)
     }
+
+    //region Observer
+
+    /**
+     * On Notify
+     * @param event
+     */
+    override fun onNotify(event: String) {
+        pushes += 1
+    }
+
+    //endregion
 }
