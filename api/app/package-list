@@ -2,12 +2,52 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:////PointingToDeclaration/app/[root]/index.html
 $dokka.location://main/#/PointingToDeclaration/app/[root]/main.html
-$dokka.location://player/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]#kotlin.Function1[Player,kotlin.Unit]/PointingToDeclaration/app/[root]/player.html
+$dokka.location:/Constants///PointingToDeclaration/app/[root]/-constants/index.html
+$dokka.location:/Constants/TILE_BUFFER/#/PointingToDeclaration/app/[root]/-constants/-t-i-l-e_-b-u-f-f-e-r.html
+$dokka.location:/Constants/TILE_SIZE/#/PointingToDeclaration/app/[root]/-constants/-t-i-l-e_-s-i-z-e.html
 $dokka.location:/MainScene///PointingToDeclaration/app/[root]/-main-scene/index.html
 $dokka.location:/MainScene/MainScene/#/PointingToDeclaration/app/[root]/-main-scene/-main-scene.html
 $dokka.location:/MainScene/sceneMain/com.soywiz.korge.view.SContainer#/PointingToDeclaration/app/[root]/-main-scene/scene-main.html
-$dokka.location:/Player///PointingToDeclaration/app/[root]/-player/index.html
-$dokka.location:/Player/Player/#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]/PointingToDeclaration/app/[root]/-player/-player.html
-$dokka.location:/Player/changeCell/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BmpSlice/PointingToDeclaration/app/[root]/-player/change-cell.html
-
+$dokka.location:Commands////PointingToDeclaration/app/Commands/index.html
+$dokka.location:Commands/Command///PointingToDeclaration/app/Commands/-command/index.html
+$dokka.location:Commands/Command/exec/#/PointingToDeclaration/app/Commands/-command/exec.html
+$dokka.location:Commands/Command/undo/#/PointingToDeclaration/app/Commands/-command/undo.html
+$dokka.location:Commands/MoveCommand///PointingToDeclaration/app/Commands/-move-command/index.html
+$dokka.location:Commands/MoveCommand/MoveCommand/#Interfaces.Moveable#Enums.Direction/PointingToDeclaration/app/Commands/-move-command/-move-command.html
+$dokka.location:Commands/MoveCommand/exec/#/PointingToDeclaration/app/Commands/-move-command/exec.html
+$dokka.location:Commands/MoveCommand/undo/#/PointingToDeclaration/app/Commands/-move-command/undo.html
+$dokka.location:Entities////PointingToDeclaration/app/Entities/index.html
+$dokka.location:Entities//block/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]#kotlin.Function1[Entities.Block,kotlin.Unit]/PointingToDeclaration/app/Entities/block.html
+$dokka.location:Entities//player/com.soywiz.korge.view.Container#kotlin.Array[com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]]#kotlin.Function1[Entities.Player,kotlin.Unit]/PointingToDeclaration/app/Entities/player.html
+$dokka.location:Entities//wall/com.soywiz.korge.view.Container#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]#kotlin.Function1[Entities.Wall,kotlin.Unit]/PointingToDeclaration/app/Entities/wall.html
+$dokka.location:Entities/Block///PointingToDeclaration/app/Entities/-block/index.html
+$dokka.location:Entities/Block/Block/#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]/PointingToDeclaration/app/Entities/-block/-block.html
+$dokka.location:Entities/Block/move/#Enums.Direction/PointingToDeclaration/app/Entities/-block/move.html
+$dokka.location:Entities/Block/moving/#/PointingToDeclaration/app/Entities/-block/moving.html
+$dokka.location:Entities/Player///PointingToDeclaration/app/Entities/-player/index.html
+$dokka.location:Entities/Player/Player/#kotlin.Array[com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]]/PointingToDeclaration/app/Entities/-player/-player.html
+$dokka.location:Entities/Player/move/#Enums.Direction/PointingToDeclaration/app/Entities/-player/move.html
+$dokka.location:Entities/Player/movementUpdateCycle/#/PointingToDeclaration/app/Entities/-player/movement-update-cycle.html
+$dokka.location:Entities/Player/moving/#/PointingToDeclaration/app/Entities/-player/moving.html
+$dokka.location:Entities/Player/objectCanMove/#/PointingToDeclaration/app/Entities/-player/object-can-move.html
+$dokka.location:Entities/Player/preventMove/#/PointingToDeclaration/app/Entities/-player/prevent-move.html
+$dokka.location:Entities/Wall///PointingToDeclaration/app/Entities/-wall/index.html
+$dokka.location:Entities/Wall/Wall/#com.soywiz.korim.bitmap.BitmapSlice[com.soywiz.korim.bitmap.Bitmap]/PointingToDeclaration/app/Entities/-wall/-wall.html
+$dokka.location:Enums////PointingToDeclaration/app/Enums/index.html
+$dokka.location:Enums/Direction.EAST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/Enums/-direction/-e-a-s-t/index.html
+$dokka.location:Enums/Direction.NORTH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/Enums/-direction/-n-o-r-t-h/index.html
+$dokka.location:Enums/Direction.SOUTH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/Enums/-direction/-s-o-u-t-h/index.html
+$dokka.location:Enums/Direction.WEST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}app/Enums/-direction/-w-e-s-t/index.html
+$dokka.location:Enums/Direction///PointingToDeclaration/app/Enums/-direction/index.html
+$dokka.location:Enums/Direction/valueOf/#kotlin.String/PointingToDeclaration/app/Enums/-direction/value-of.html
+$dokka.location:Enums/Direction/values/#/PointingToDeclaration/app/Enums/-direction/values.html
+$dokka.location:Interfaces////PointingToDeclaration/app/Interfaces/index.html
+$dokka.location:Interfaces/Dense///PointingToDeclaration/app/Interfaces/-dense/index.html
+$dokka.location:Interfaces/Moveable///PointingToDeclaration/app/Interfaces/-moveable/index.html
+$dokka.location:Interfaces/Moveable/move/#Enums.Direction/PointingToDeclaration/app/Interfaces/-moveable/move.html
+$dokka.location:Interfaces/Moveable/moving/#/PointingToDeclaration/app/Interfaces/-moveable/moving.html
+Commands
+Entities
+Enums
+Interfaces
 
