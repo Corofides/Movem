@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Moveable</title>
+  <title>Coverage Report > Block</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,22 +18,70 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">Interfaces</a>
+    <a href="../index.html">Entities</a>
 </div>
 
-<h1>Coverage Summary for Class: Moveable (Interfaces)</h1>
+<h1>Coverage Summary for Class: Block (Entities)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 <th class="coverageStat 
 ">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
   Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
 </th>
 </tr>
 <tr>
-  <td class="name">Moveable</td>
+  <td class="name">Block</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
     <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
 </tr>
 
 </table>
@@ -43,13 +91,38 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package Interfaces
+<code class="sourceCode" id="sourceCode">&nbsp;package Entities
 &nbsp;
-&nbsp;interface Moveable {
+&nbsp;import Enums.*
+&nbsp;import Interfaces.*
+&nbsp;import com.soywiz.korge.view.*
+&nbsp;import com.soywiz.korim.bitmap.*
 &nbsp;
-&nbsp;    fun move(x: Double, y:Double);
-&nbsp;    fun getPositionX(): Double
-&nbsp;    fun getPositionY(): Double
+&nbsp;inline fun Container.block(mainImage: BitmapSlice&lt;Bitmap&gt;, callback: @ViewDslMarker Block.() -&gt; Unit = {}) =
+&nbsp;    Block(mainImage).addTo(this, callback)
+&nbsp;
+&nbsp;class Block (
+&nbsp;    blockSprite: BitmapSlice&lt;Bitmap&gt;
+<b class="nc">&nbsp;) :  Dense, Moveable, Container() {</b>
+&nbsp;
+<b class="nc">&nbsp;    override var moving: Boolean = false</b>
+<b class="nc">&nbsp;    private val image: Image = image(blockSprite)</b>
+<b class="nc">&nbsp;    private var movementDirection: Direction = Direction.NORTH</b>
+&nbsp;    //private val
+&nbsp;
+<b class="nc">&nbsp;    init {</b>
+<b class="nc">&nbsp;        image.anchor(.5, .5);</b>
+<b class="nc">&nbsp;        image.scale(1);</b>
+<b class="nc">&nbsp;        image.position(0, 0);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    override fun move(direction: Direction) {
+&nbsp;
+<b class="nc">&nbsp;        movementDirection = direction;</b>
+&nbsp;        //cur
+&nbsp;
+<b class="nc">&nbsp;        println(&quot;Player moved object&quot;);</b>
+&nbsp;    }
 &nbsp;
 &nbsp;}
 </code>
@@ -75,7 +148,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-02-04 22:42</div>
+    <div style="float:right;">generated on 2023-04-13 16:25</div>
 </div>
 </body>
 </html>

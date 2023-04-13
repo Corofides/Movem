@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > PlayerKt</title>
+  <title>Coverage Report > WallKt</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">&lt;empty package name&gt;</a>
+    <a href="../index.html">Entities</a>
 </div>
 
-<h1>Coverage Summary for Class: PlayerKt (&lt;empty package name&gt;)</h1>
+<h1>Coverage Summary for Class: WallKt (Entities)</h1>
 
 <table class="coverageStats">
 
@@ -45,7 +45,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">PlayerKt</td>
+  <td class="name">WallKt</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -73,7 +73,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">PlayerKt$player$1</td>
+    <td class="name">WallKt$wall$1</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -127,48 +127,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;import Interfaces.*
+<code class="sourceCode" id="sourceCode">&nbsp;package Entities
+&nbsp;
 &nbsp;import com.soywiz.korge.view.*
 &nbsp;import com.soywiz.korim.bitmap.*
 &nbsp;
-&nbsp;/**
-&nbsp; * player
-&nbsp; */
-<b class="nc">&nbsp;inline fun Container.player(mainImage: BitmapSlice&lt;Bitmap&gt;, callback: @ViewDslMarker Player.() -&gt; Unit = {}) =</b>
-<b class="nc">&nbsp;    Player(mainImage).addTo(this, callback)</b>
+<b class="nc">&nbsp;inline fun Container.wall(mainImage: BitmapSlice&lt;Bitmap&gt;, callback: @ViewDslMarker Wall.() -&gt; Unit = {}) =</b>
+<b class="nc">&nbsp;    Wall(mainImage).addTo(this, callback);</b>
 &nbsp;
-&nbsp;/**
-&nbsp; * Player
-&nbsp; *
-&nbsp; * @param mainImage The image to display for the main Player
-&nbsp; * @return Container The view that is the Player
-&nbsp; */
-&nbsp;class Player (
-&nbsp;    mainImage: BitmapSlice&lt;Bitmap&gt;
-&nbsp;) : Moveable, Container() {
-&nbsp;    private val image: Image = image(mainImage);
+&nbsp;class Wall (
+&nbsp;    sprite: BitmapSlice&lt;Bitmap&gt;
+&nbsp;) : Container() {
+&nbsp;
+&nbsp;    private val image: Image = image(sprite);
 &nbsp;
 &nbsp;    init {
 &nbsp;        image.anchor(.5, .5);
-&nbsp;        image.scale(0.8);
+&nbsp;        image.scale(1);
 &nbsp;        image.position(0, 0);
-&nbsp;    }
-&nbsp;
-&nbsp;    fun Container.changeCell(bitmap: BmpSlice) {
-&nbsp;        image.bitmap = bitmap
-&nbsp;    }
-&nbsp;
-&nbsp;    override fun move(x: Double, y: Double) {
-&nbsp;        this.x += x;
-&nbsp;        this.y += y;
-&nbsp;    }
-&nbsp;
-&nbsp;    override fun getPositionX(): Double {
-&nbsp;        return this.x;
-&nbsp;    }
-&nbsp;
-&nbsp;    override fun getPositionY(): Double {
-&nbsp;        return this.y;
 &nbsp;    }
 &nbsp;
 &nbsp;}
@@ -195,7 +171,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-02-04 22:42</div>
+    <div style="float:right;">generated on 2023-04-13 16:25</div>
 </div>
 </body>
 </html>

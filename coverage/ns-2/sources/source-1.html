@@ -71,7 +71,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/10)
+    (0/9)
   </span>
 </td>
 <td class="coverageStat">
@@ -79,7 +79,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/38)
+    (0/35)
   </span>
 </td>
 </tr>
@@ -93,34 +93,44 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package Commands
 &nbsp;
+&nbsp;import Enums.*
+&nbsp;
 &nbsp;import Interfaces.*
 &nbsp;
 <b class="nc">&nbsp;class MoveCommand (</b>
 &nbsp;    actor: Moveable,
-&nbsp;    x: Double,
-&nbsp;    y: Double,
+&nbsp;    direction: Direction
 &nbsp;): Command {
 &nbsp;
 <b class="nc">&nbsp;    private val actor: Moveable = actor;</b>
-<b class="nc">&nbsp;    private var x: Double = x;</b>
-<b class="nc">&nbsp;    private var y: Double = y;</b>
+<b class="nc">&nbsp;    private var direction: Direction = direction;</b>
 &nbsp;
-&nbsp;    private var _previousX: Double = 0.0;
-&nbsp;    private var _previousY: Double = 0.0;
+&nbsp;    // Converting the direction to the opposite direction. Since we have 4 values 0, 1, 2, 3 and the
+&nbsp;    // difference between the opposites is 2, we can just add 2 and mod by 4 to get the correct value.
+&nbsp;    // This will allow us to undo our move if we ever need this.
+<b class="nc">&nbsp;    private var oppositeDirection: Direction = Direction.values()[(direction.ordinal + 2) % 4];</b>
+&nbsp;
+&nbsp;    //private var _previousX: Double = 0.0;
+&nbsp;    //private var _previousY: Double = 0.0;
 &nbsp;
 &nbsp;    override fun exec() {
 &nbsp;
-<b class="nc">&nbsp;        _previousX = actor.getPositionX();</b>
-<b class="nc">&nbsp;        _previousY = actor.getPositionY();</b>
+<b class="nc">&nbsp;        actor.move(direction);</b>
 &nbsp;
-<b class="nc">&nbsp;        actor.move(x, y);</b>
+&nbsp;        //_previousX = actor.getPositionX();
+&nbsp;        //_previousY = actor.getPositionY();
+&nbsp;
+&nbsp;        //actor.move(x, y);
 &nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;    override fun undo() {
 &nbsp;
-<b class="nc">&nbsp;        x = _previousX;</b>
-<b class="nc">&nbsp;        y = _previousY;</b>
+<b class="nc">&nbsp;        val curDirection = direction;</b>
+<b class="nc">&nbsp;        direction = oppositeDirection;</b>
+<b class="nc">&nbsp;        oppositeDirection = curDirection;</b>
+&nbsp;        //x = _previousX;
+&nbsp;        //y = _previousY;
 &nbsp;
 <b class="nc">&nbsp;        exec();</b>
 &nbsp;    }
@@ -149,7 +159,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-02-04 22:42</div>
+    <div style="float:right;">generated on 2023-04-13 16:25</div>
 </div>
 </body>
 </html>
