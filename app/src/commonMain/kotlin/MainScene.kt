@@ -10,6 +10,7 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.font.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import singletons.*
 
 /**
  * Main Scene
@@ -35,9 +36,11 @@ class MainScene : Scene() {
         var commandPosition = 0
         var moves = 0
         val level = 1
+        val anchorCount = 1
 
         val backgroundBitmap = resourcesVfs["Pieces/Background/Background.png"].readBitmapSlice()
         val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice()
+        val blockOccupiedBitmap = resourcesVfs["Pieces/Block/Block [Light Up] [T].png"].readBitmapSlice()
         val holderBitmap = resourcesVfs["Pieces/Holder/Holder [T].png"].readBitmapSlice()
 
         val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
@@ -96,11 +99,12 @@ class MainScene : Scene() {
         }
         //endregion
 
-        val holder: Holder = holder(holderBitmap) {
-            position(128, 128)
+        val anchor: Holder = holder(holderBitmap) {
+            // position(128, 128)
+            position(224, 224)
         }
 
-        val block: Block = block(blockBitmap) {
+        val block: Block = block(blockBitmap, blockOccupiedBitmap) {
             position(256 + Constants.TILE_SIZE, 256)
         }
 
@@ -115,7 +119,7 @@ class MainScene : Scene() {
             position(0.0, 0.0) // 643 x 44
         }
 
-        block.add(hud)
+        EventManager.add(hud)
 
         hud.alignBottomToBottomOf(this)
 

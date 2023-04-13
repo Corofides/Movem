@@ -1,8 +1,10 @@
 package Interfaces
 
+import Enums.*
+
 /**
  * Observer
  */
 interface Observer {
-    fun onNotify(event: String)
+    fun onNotify(event: Event)
 }

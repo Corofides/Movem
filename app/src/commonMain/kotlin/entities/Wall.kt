@@ -1,8 +1,9 @@
 package entities
 
-import Interfaces.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
+
+import Interfaces.*
 
 /**
  * wall
@@ -11,7 +12,7 @@ import com.soywiz.korim.bitmap.*
  * @param callback
  */
 inline fun Container.wall(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Wall.() -> Unit = {}) =
-    Wall(mainImage).addTo(this, callback);
+    Wall(mainImage).addTo(this, callback)
 
 /**
  * Wall
@@ -23,15 +24,15 @@ class Wall (
 ) : Dense, Container() {
 
     // Properties
-    private val image: Image = image(sprite);
+    private val image: Image = image(sprite)
 
     /**
      * init
      */
     init {
-        image.anchor(.5, .5);
-        image.scale(1);
-        image.position(0, 0);
+        image.anchor(.5, .5)
+        image.scale(1)
+        image.position(0, 0)
     }
 
 }

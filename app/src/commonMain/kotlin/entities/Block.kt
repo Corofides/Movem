@@ -6,32 +6,36 @@ import Interfaces.*
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
+import singletons.*
 
 /**
  * block
  *
  * @param mainImage
+ * @param occupiedImage
  * @param callback
  */
-inline fun Container.block(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Block.() -> Unit = {}) =
-    Block(mainImage).addTo(this, callback)
+inline fun Container.block(mainImage: BitmapSlice<Bitmap>, occupiedImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Block.() -> Unit = {}) =
+    Block(mainImage, occupiedImage).addTo(this, callback)
 
 /**
  * Block
  *
  * @param blockSprite
+ * @param occupiedSprite
  */
 class Block (
-    blockSprite: BitmapSlice<Bitmap>
-) :  Observable, Dense, Moveable, Container() {
+    blockSprite: BitmapSlice<Bitmap>,
+    occupiedSprite: BitmapSlice<Bitmap>
+) : Dense, Moveable, Container() {
 
     // Properties
     override var moving: Boolean = false
     private val image: Image = image(blockSprite)
+    // private val occupiedImage: Image = image(occupiedSprite)
     private var currentMovementAmount: Int = 0
     private val allowedMovementAmount: Int = Constants.TILE_SIZE
     private var movementDirection: Direction = Direction.NORTH
-    override val observers: ArrayList<Observer> = ArrayList()
 
     /**
      * init
@@ -40,14 +44,6 @@ class Block (
         image.anchor(.5, .5)
         image.scale(1)
         image.position(0, 0)
-    }
-
-    /**
-     * Add Block Move Observer
-     * @param observer
-     */
-    fun addBlockMoveObserver(observer: Observer) {
-        observers.add(observer)
     }
 
     /**
@@ -84,14 +80,13 @@ class Block (
      * @return Boolean
      */
     override fun move(direction: Direction): Boolean {
-        println("Player moved object")
         movementDirection = direction
 
         if (moving) {
             return false
         }
 
-        sendUpdateEvent("blockMoved")
+        EventManager.sendUpdateEvent(Event.BLOCKMOVED)
         moving = true
         movementDirection = direction
         currentMovementAmount = 0

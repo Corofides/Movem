@@ -1,7 +1,9 @@
 package entities
 
 import Constants
+import Enums.*
 import Interfaces.Observer
+//import Enums.Event
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
@@ -34,6 +36,7 @@ class Hud (
     private val hudImage: Image = image(sprite)
     private val level: Int = level
     private var pushes: Int = 0
+    private var occupied: Int = 0
 
     /**
      * init
@@ -42,6 +45,9 @@ class Hud (
         hudImage.anchor(0, 0)
         hudImage.scale(1)
         hudImage.position(0, 0)
+
+//        println("Class init method. Singleton variableName property : ${EventManager.variableName}")
+//        EventManager.printVarName()
     }
 
     /**
@@ -81,6 +87,12 @@ class Hud (
             }
         }
         image(movesImage)
+
+        // DEBUG: Occupied Count
+        val occupiedImage = NativeImage(643, 44).apply {
+            getContext2d().fillText(occupied.toString(), x = 65.0, y = 28.0, font, textSize = Constants.FONT_SIZE, color = Colors.RED)
+        }
+        image(occupiedImage)
     }
 
     //region Observer
@@ -89,8 +101,21 @@ class Hud (
      * On Notify
      * @param event
      */
-    override fun onNotify(event: String) {
-        pushes += 1
+    override fun onNotify(event: Event) {
+        when (event) {
+            Event.BLOCKMOVED -> {
+                pushes += 1
+            }
+            Event.HOLDEROCCUPIED -> {
+                occupied += 1
+            }
+            Event.HOLDERUNOCCUPIED -> {
+                occupied -= 1
+            }
+            else -> {
+                println("Undefined")
+            }
+        }
     }
 
     //endregion
