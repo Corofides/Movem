@@ -24,15 +24,22 @@ jobs:
         working-directory: ./app
         run: chmod +x gradlew
       
-      - name: Buid JS bundle
+      - name: Build JS bundle
         working-directory: ./app
         run: |
           ./gradlew jsBrowserProductionWebpack
       
-      - name: Deploy 🚀 to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+#      - name: Deploy 🚀 to GitHub Pages
+#        uses: JamesIves/github-pages-deploy-action@3.7.1
+#        with:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          BRANCH: gh-pages
+#          FOLDER: app/build/distributions # The folder the action should deploy.
+#          # CLEAN: true # Automatically remove deleted files from the deploy branch
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: github-pages # The branch the action should deploy to.
-          FOLDER: app/build/distributions # The folder the action should deploy.
-          CLEAN: true # Automatically remove deleted files from the deploy branch
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/build/distributions
+          destination_dir: app
