@@ -42,16 +42,9 @@ class MainScene : Scene() {
         val blockBitmap = resourcesVfs["Pieces/Block/Block [T].png"].readBitmapSlice()
         val blockOccupiedBitmap = resourcesVfs["Pieces/Block/Block [Light Up] [T].png"].readBitmapSlice()
         val holderBitmap = resourcesVfs["Pieces/Holder/Holder [T].png"].readBitmapSlice()
+        val wallBitmap = resourcesVfs["Pieces/Wall/Wall [No Sides] [T].png"].readBitmapSlice()
 
         val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
-
-//        image(backgroundBitmap)
-
-//        val floor: Floor = floor(backgroundBitmap) {
-//            position(32, 32)
-//        }
-
-        var index = 0
 
         for (i in 1..1024) {
             floor(backgroundBitmap) {
@@ -60,57 +53,135 @@ class MainScene : Scene() {
         }
 
         val player: Player = player(playerSprites) {
-            position(256, 256)
+            position(544, 320)
         }
 
         // region Level
-        val wallBitmap = resourcesVfs["Pieces/Wall/Wall [No Sides] [T].png"].readBitmapSlice()
+        var walls = listOf(
+            wall(wallBitmap) { position(32, 32) },
+            wall(wallBitmap) { position(32, 64) },
+            wall(wallBitmap) { position(32, 96) },
+            wall(wallBitmap) { position(32, 128) },
+            wall(wallBitmap) { position(32, 160) },
+            wall(wallBitmap) { position(32, 192) },
+            wall(wallBitmap) { position(32, 224) },
+            wall(wallBitmap) { position(32, 256) },
+            wall(wallBitmap) { position(32, 288) },
 
-        val wall1: Wall = wall(wallBitmap) {
-            position(32, 32)
-        }
+            wall(wallBitmap) { position(64, 288) },
+            wall(wallBitmap) { position(96, 288) },
+            wall(wallBitmap) { position(128, 288) },
+            wall(wallBitmap) { position(160, 288) },
+            wall(wallBitmap) { position(192, 288) },
 
-        val wall2: Wall = wall(wallBitmap) {
-            position(32, 64)
-        }
+            wall(wallBitmap) { position(192, 320) },
+            wall(wallBitmap) { position(224, 320) },
+            wall(wallBitmap) { position(256, 320) },
+            wall(wallBitmap) { position(288, 320) },
+            wall(wallBitmap) { position(320, 320) },
+            wall(wallBitmap) { position(352, 320) },
+            wall(wallBitmap) { position(384, 320) },
+            wall(wallBitmap) { position(416, 320) },
+            wall(wallBitmap) { position(448, 320) },
 
-        val wall3: Wall = wall(wallBitmap) {
-            position(32, 96)
-        }
+            wall(wallBitmap) { position(448, 288) },
+            wall(wallBitmap) { position(480, 288) },
+            wall(wallBitmap) { position(512, 288) },
 
-        val wall4: Wall = wall(wallBitmap) {
-            position(32, 128)
-        }
+            wall(wallBitmap) { position(512, 320) },
+            wall(wallBitmap) { position(512, 352) },
+            wall(wallBitmap) { position(512, 384) },
+            wall(wallBitmap) { position(512, 416) },
 
-        val wall5: Wall = wall(wallBitmap) {
-            position(32, 160)
-        }
+            wall(wallBitmap) { position(544, 416) },
+            wall(wallBitmap) { position(576, 416) },
+            wall(wallBitmap) { position(608, 416) },
 
-        val wall6: Wall = wall(wallBitmap) {
-            position(32, 192)
-        }
+            wall(wallBitmap) { position(608, 384) },
+            wall(wallBitmap) { position(608, 352) },
+            wall(wallBitmap) { position(608, 320) },
+            wall(wallBitmap) { position(608, 288) },
+            wall(wallBitmap) { position(608, 256) },
+            wall(wallBitmap) { position(608, 224) },
+            wall(wallBitmap) { position(608, 192) },
+            wall(wallBitmap) { position(608, 160) },
+            wall(wallBitmap) { position(608, 128) },
 
-        val wall7: Wall = wall(wallBitmap) {
-            position(32, 224)
-        }
+            wall(wallBitmap) { position(576, 128) },
+            wall(wallBitmap) { position(512, 128) },
+            wall(wallBitmap) { position(544, 128) },
+            wall(wallBitmap) { position(480, 128) },
 
-        val wall8: Wall = wall(wallBitmap) {
-            position(32, 256)
-        }
+            wall(wallBitmap) { position(480, 160) },
+            wall(wallBitmap) { position(480, 192) },
+            wall(wallBitmap) { position(480, 224) },
+            
+            wall(wallBitmap) { position(448, 224) },
+            wall(wallBitmap) { position(416, 224) },
+
+            wall(wallBitmap) { position(416, 192) },
+            wall(wallBitmap) { position(416, 160) },
+
+            wall(wallBitmap) { position(384, 160) },
+            wall(wallBitmap) { position(352, 160) },
+            wall(wallBitmap) { position(320, 160) },
+            wall(wallBitmap) { position(288, 160) },
+            wall(wallBitmap) { position(256, 160) },
+            wall(wallBitmap) { position(224, 160) },
+            wall(wallBitmap) { position(192, 160) },
+            wall(wallBitmap) { position(160, 160) },
+            wall(wallBitmap) { position(128, 160) },
+
+            wall(wallBitmap) { position(160, 128) },
+            wall(wallBitmap) { position(160, 96) },
+            wall(wallBitmap) { position(160, 64) },
+            wall(wallBitmap) { position(160, 32) },
+
+            wall(wallBitmap) { position(128, 32) },
+            wall(wallBitmap) { position(96, 32) },
+            wall(wallBitmap) { position(64, 32) },
+
+            // Center
+            wall(wallBitmap) { position(256, 224) },
+            wall(wallBitmap) { position(288, 224) },
+            wall(wallBitmap) { position(320, 224) },
+            wall(wallBitmap) { position(256, 256) },
+            wall(wallBitmap) { position(288, 256) },
+            wall(wallBitmap) { position(320, 256) },
+        )
+
+        var anchors = listOf(
+            holder(holderBitmap) { position(64, 64) },
+            holder(holderBitmap) { position(96, 64) },
+            holder(holderBitmap) { position(128, 64) },
+            holder(holderBitmap) { position(64, 96) },
+            holder(holderBitmap) { position(96, 96) },
+            holder(holderBitmap) { position(128, 96) },
+            holder(holderBitmap) { position(64, 128) },
+            holder(holderBitmap) { position(64, 160) },
+        )
+
+        val blocks = listOf(
+            block(blockBitmap, blockOccupiedBitmap) { position(224, 256) },
+            block(blockBitmap, blockOccupiedBitmap) { position(188, 224) },
+            block(blockBitmap, blockOccupiedBitmap) { position(352, 256) },
+            block(blockBitmap, blockOccupiedBitmap) { position(384, 256) },
+            block(blockBitmap, blockOccupiedBitmap) { position(544, 256) },
+            block(blockBitmap, blockOccupiedBitmap) { position(544, 288) },
+            block(blockBitmap, blockOccupiedBitmap) { position(544, 224) },
+            block(blockBitmap, blockOccupiedBitmap) { position(544, 192) },
+        )
         //endregion
-
-        val anchor: Holder = holder(holderBitmap) {
-            // position(128, 128)
-            position(224, 224)
+        
+        blocks.forEach {
+            it.addFixedUpdater(30.timesPerSecond) {
+                it.movementUpdateCycle()
+            }
         }
 
-        val block: Block = block(blockBitmap, blockOccupiedBitmap) {
-            position(256 + Constants.TILE_SIZE, 256)
-        }
-
-        block.addFixedUpdater(30.timesPerSecond) {
+        /*block.addFixedUpdater(30.timesPerSecond) {
             block.movementUpdateCycle()
-        }
+        }*/
 
         val font = TtfFont(resourcesVfs["Movem.ttf"].readAll())
         val fontsize = 32.0
