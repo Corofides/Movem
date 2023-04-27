@@ -1,8 +1,13 @@
 # Deploy JS game to GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main", "master" ]
+
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build:
