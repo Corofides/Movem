@@ -10,6 +10,11 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.font.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import com.soywiz.korio.lang.*
+import com.soywiz.korma.geom.Point
+
+import helpers.*
+
 import singletons.*
 
 /**
@@ -46,6 +51,26 @@ class MainScene : Scene() {
 
         val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
 
+//        var levelText  = object {}.javaClass.getResource("levels/Level1.txt")?.readText()
+        val levelText = resourcesVfs["levels/Level1.txt"].read().toString(Charsets.UTF8)
+        println("--------------------")
+        println(levelText)
+        println("--------------------")
+
+        val rowCount = 20;
+        val colCount = 20;
+        val cellWidth = Constants.TILE_SIZE // 32
+        val cellHeight = Constants.TILE_SIZE // 32
+        val levelGrid = LevelGrid(cellWidth, cellHeight, rowCount, colCount)
+
+        /*{
+            index: 0;
+            [
+                objects
+            ]
+            // wall, player, movable object
+        }*/
+
         for (i in 1..1024) {
             floor(backgroundBitmap) {
                 position(32 * ((i - 1) % 32), 32 * ((i - 1) / 32))
@@ -58,8 +83,8 @@ class MainScene : Scene() {
 
         // region Level
         var walls = listOf(
-            wall(wallBitmap) { position(32, 32) },
-            wall(wallBitmap) { position(32, 64) },
+            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 1)) },
+            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 2)) },
             wall(wallBitmap) { position(32, 96) },
             wall(wallBitmap) { position(32, 128) },
             wall(wallBitmap) { position(32, 160) },
@@ -172,7 +197,7 @@ class MainScene : Scene() {
             block(blockBitmap, blockOccupiedBitmap) { position(544, 192) },
         )
         //endregion
-        
+
         blocks.forEach {
             it.addFixedUpdater(30.timesPerSecond) {
                 it.movementUpdateCycle()
