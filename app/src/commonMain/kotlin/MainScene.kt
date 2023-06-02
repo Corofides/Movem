@@ -14,6 +14,7 @@ import com.soywiz.korio.lang.*
 import com.soywiz.korma.geom.Point
 
 import helpers.*
+import models.*
 
 import singletons.*
 
@@ -56,9 +57,11 @@ class MainScene : Scene() {
         println("--------------------")
         println(levelText)
         println("--------------------")
+        val levelParser = LevelParser(levelText)
+        val levelData = levelParser.parseLevel()
 
-        val rowCount = 20;
-        val colCount = 20;
+        val rowCount = 20
+        val colCount = 20
         val cellWidth = Constants.TILE_SIZE // 32
         val cellHeight = Constants.TILE_SIZE // 32
         val levelGrid = LevelGrid(cellWidth, cellHeight, rowCount, colCount)
@@ -71,6 +74,7 @@ class MainScene : Scene() {
             // wall, player, movable object
         }*/
 
+
         for (i in 1..1024) {
             floor(backgroundBitmap) {
                 position(32 * ((i - 1) % 32), 32 * ((i - 1) / 32))
@@ -81,99 +85,116 @@ class MainScene : Scene() {
             position(544, 320)
         }
 
+
+        val width = levelData.tiles.size;
+
+
+        // ArrayList<ArrayList<Int>>
+        levelData.tiles.forEachIndexed { row, rowData ->
+            val walls = mutableListOf<Wall>()
+
+            rowData.forEachIndexed { col, cell ->
+                if (cell == 0) {
+                    // Ignore
+                } else {
+                    walls.add(wall(wallBitmap) { position(levelGrid.getCellPosition(col, row, true, true)) })
+                }
+            }
+        }
+
         // region Level
-        var walls = listOf(
-            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 1)) },
-            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 2)) },
-            wall(wallBitmap) { position(32, 96) },
-            wall(wallBitmap) { position(32, 128) },
-            wall(wallBitmap) { position(32, 160) },
-            wall(wallBitmap) { position(32, 192) },
-            wall(wallBitmap) { position(32, 224) },
-            wall(wallBitmap) { position(32, 256) },
-            wall(wallBitmap) { position(32, 288) },
-
-            wall(wallBitmap) { position(64, 288) },
-            wall(wallBitmap) { position(96, 288) },
-            wall(wallBitmap) { position(128, 288) },
-            wall(wallBitmap) { position(160, 288) },
-            wall(wallBitmap) { position(192, 288) },
-
-            wall(wallBitmap) { position(192, 320) },
-            wall(wallBitmap) { position(224, 320) },
-            wall(wallBitmap) { position(256, 320) },
-            wall(wallBitmap) { position(288, 320) },
-            wall(wallBitmap) { position(320, 320) },
-            wall(wallBitmap) { position(352, 320) },
-            wall(wallBitmap) { position(384, 320) },
-            wall(wallBitmap) { position(416, 320) },
-            wall(wallBitmap) { position(448, 320) },
-
-            wall(wallBitmap) { position(448, 288) },
-            wall(wallBitmap) { position(480, 288) },
-            wall(wallBitmap) { position(512, 288) },
-
-            wall(wallBitmap) { position(512, 320) },
-            wall(wallBitmap) { position(512, 352) },
-            wall(wallBitmap) { position(512, 384) },
-            wall(wallBitmap) { position(512, 416) },
-
-            wall(wallBitmap) { position(544, 416) },
-            wall(wallBitmap) { position(576, 416) },
-            wall(wallBitmap) { position(608, 416) },
-
-            wall(wallBitmap) { position(608, 384) },
-            wall(wallBitmap) { position(608, 352) },
-            wall(wallBitmap) { position(608, 320) },
-            wall(wallBitmap) { position(608, 288) },
-            wall(wallBitmap) { position(608, 256) },
-            wall(wallBitmap) { position(608, 224) },
-            wall(wallBitmap) { position(608, 192) },
-            wall(wallBitmap) { position(608, 160) },
-            wall(wallBitmap) { position(608, 128) },
-
-            wall(wallBitmap) { position(576, 128) },
-            wall(wallBitmap) { position(512, 128) },
-            wall(wallBitmap) { position(544, 128) },
-            wall(wallBitmap) { position(480, 128) },
-
-            wall(wallBitmap) { position(480, 160) },
-            wall(wallBitmap) { position(480, 192) },
-            wall(wallBitmap) { position(480, 224) },
-            
-            wall(wallBitmap) { position(448, 224) },
-            wall(wallBitmap) { position(416, 224) },
-
-            wall(wallBitmap) { position(416, 192) },
-            wall(wallBitmap) { position(416, 160) },
-
-            wall(wallBitmap) { position(384, 160) },
-            wall(wallBitmap) { position(352, 160) },
-            wall(wallBitmap) { position(320, 160) },
-            wall(wallBitmap) { position(288, 160) },
-            wall(wallBitmap) { position(256, 160) },
-            wall(wallBitmap) { position(224, 160) },
-            wall(wallBitmap) { position(192, 160) },
-            wall(wallBitmap) { position(160, 160) },
-            wall(wallBitmap) { position(128, 160) },
-
-            wall(wallBitmap) { position(160, 128) },
-            wall(wallBitmap) { position(160, 96) },
-            wall(wallBitmap) { position(160, 64) },
-            wall(wallBitmap) { position(160, 32) },
-
-            wall(wallBitmap) { position(128, 32) },
-            wall(wallBitmap) { position(96, 32) },
-            wall(wallBitmap) { position(64, 32) },
-
-            // Center
-            wall(wallBitmap) { position(256, 224) },
-            wall(wallBitmap) { position(288, 224) },
-            wall(wallBitmap) { position(320, 224) },
-            wall(wallBitmap) { position(256, 256) },
-            wall(wallBitmap) { position(288, 256) },
-            wall(wallBitmap) { position(320, 256) },
-        )
+//        var walls = listOf(
+//            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 1)) },
+//            wall(wallBitmap) { position(levelGrid.getCellPosition(1, 2)) },
+//            wall(wallBitmap) { position(32, 96) },
+//            wall(wallBitmap) { position(32, 128) },
+//            wall(wallBitmap) { position(32, 160) },
+//            wall(wallBitmap) { position(32, 192) },
+//            wall(wallBitmap) { position(32, 224) },
+//            wall(wallBitmap) { position(32, 256) },
+//            wall(wallBitmap) { position(32, 288) },
+//
+//            wall(wallBitmap) { position(64, 288) },
+//            wall(wallBitmap) { position(96, 288) },
+//            wall(wallBitmap) { position(128, 288) },
+//            wall(wallBitmap) { position(160, 288) },
+//            wall(wallBitmap) { position(192, 288) },
+//
+//            wall(wallBitmap) { position(192, 320) },
+//            wall(wallBitmap) { position(224, 320) },
+//            wall(wallBitmap) { position(256, 320) },
+//            wall(wallBitmap) { position(288, 320) },
+//            wall(wallBitmap) { position(320, 320) },
+//            wall(wallBitmap) { position(352, 320) },
+//            wall(wallBitmap) { position(384, 320) },
+//            wall(wallBitmap) { position(416, 320) },
+//            wall(wallBitmap) { position(448, 320) },
+//
+//            wall(wallBitmap) { position(448, 288) },
+//            wall(wallBitmap) { position(480, 288) },
+//            wall(wallBitmap) { position(512, 288) },
+//
+//            wall(wallBitmap) { position(512, 320) },
+//            wall(wallBitmap) { position(512, 352) },
+//            wall(wallBitmap) { position(512, 384) },
+//            wall(wallBitmap) { position(512, 416) },
+//
+//            wall(wallBitmap) { position(544, 416) },
+//            wall(wallBitmap) { position(576, 416) },
+//            wall(wallBitmap) { position(608, 416) },
+//
+//            wall(wallBitmap) { position(608, 384) },
+//            wall(wallBitmap) { position(608, 352) },
+//            wall(wallBitmap) { position(608, 320) },
+//            wall(wallBitmap) { position(608, 288) },
+//            wall(wallBitmap) { position(608, 256) },
+//            wall(wallBitmap) { position(608, 224) },
+//            wall(wallBitmap) { position(608, 192) },
+//            wall(wallBitmap) { position(608, 160) },
+//            wall(wallBitmap) { position(608, 128) },
+//
+//            wall(wallBitmap) { position(576, 128) },
+//            wall(wallBitmap) { position(512, 128) },
+//            wall(wallBitmap) { position(544, 128) },
+//            wall(wallBitmap) { position(480, 128) },
+//
+//            wall(wallBitmap) { position(480, 160) },
+//            wall(wallBitmap) { position(480, 192) },
+//            wall(wallBitmap) { position(480, 224) },
+//
+//            wall(wallBitmap) { position(448, 224) },
+//            wall(wallBitmap) { position(416, 224) },
+//
+//            wall(wallBitmap) { position(416, 192) },
+//            wall(wallBitmap) { position(416, 160) },
+//
+//            wall(wallBitmap) { position(384, 160) },
+//            wall(wallBitmap) { position(352, 160) },
+//            wall(wallBitmap) { position(320, 160) },
+//            wall(wallBitmap) { position(288, 160) },
+//            wall(wallBitmap) { position(256, 160) },
+//            wall(wallBitmap) { position(224, 160) },
+//            wall(wallBitmap) { position(192, 160) },
+//            wall(wallBitmap) { position(160, 160) },
+//            wall(wallBitmap) { position(128, 160) },
+//
+//            wall(wallBitmap) { position(160, 128) },
+//            wall(wallBitmap) { position(160, 96) },
+//            wall(wallBitmap) { position(160, 64) },
+//            wall(wallBitmap) { position(160, 32) },
+//
+//            wall(wallBitmap) { position(128, 32) },
+//            wall(wallBitmap) { position(96, 32) },
+//            wall(wallBitmap) { position(64, 32) },
+//
+//            // Center
+//            wall(wallBitmap) { position(256, 224) },
+//            wall(wallBitmap) { position(288, 224) },
+//            wall(wallBitmap) { position(320, 224) },
+//            wall(wallBitmap) { position(256, 256) },
+//            wall(wallBitmap) { position(288, 256) },
+//            wall(wallBitmap) { position(320, 256) },
+//        )
 
         var anchors = listOf(
             holder(holderBitmap) { position(64, 64) },

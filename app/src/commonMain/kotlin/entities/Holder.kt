@@ -1,9 +1,8 @@
 package entities
 
+import Enums.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
-
-import Enums.*
 import singletons.*
 
 inline fun Container.holder(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Holder.() -> Unit = {}) =
@@ -14,8 +13,8 @@ inline fun Container.holder(mainImage: BitmapSlice<Bitmap>, callback: @ViewDslMa
  *
  * @param sprite
  */
-class Holder (
-    sprite: BitmapSlice<Bitmap>
+class Holder(
+    sprite: BitmapSlice<Bitmap>,
 ) : Container() {
 
     // Properties
@@ -49,7 +48,7 @@ class Holder (
         isOccupied = false
         EventManager.sendUpdateEvent(Event.HOLDERUNOCCUPIED)
     }
-    
+
     /**
      * On Holder Collision
      *
@@ -68,5 +67,4 @@ class Holder (
         isOccupied = true
         EventManager.sendUpdateEvent(Event.HOLDEROCCUPIED)
     }
-
 }

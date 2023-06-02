@@ -1,71 +1,26 @@
 package helpers
 
+import com.soywiz.korgw.platform.*
 import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.serialization.json.*
 
+import models.*
+
 class LevelParser(levelText: String) {
     private val levelText = levelText
 
-//    fun getLevelText() {
-//        val levelText = resourcesVfs["levels/Level1.txt"].read().toString(Charsets.UTF8)
-//        println("--------------------")
-//        println(levelText)
-//        println("--------------------")
-//    }
+    fun parseLevel(): LevelData {
+        var levelJson = levelText.fromJson() as LinkedHashMap<String, Any?>
+        println(levelJson)
 
-//    {
-//        "tiles": [
-//        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1]
-//        ,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1]
-//        ,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1]
-//        ,[0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,1]
-//        ,[1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,1]
-//        ,[1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1]
-//        ,[1,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,1]
-//        ,[1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1]
-//        ,[1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,0,0,0,1]
-//        ,[1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1]
-//        ,[1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-//        ,[1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-//        ,[1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-//        ],
-//        "boxes": [
-//        [16,7],[5,6],[16,6],[6,5],[10,5],[11,5],[16,5],[16,4]
-//        ],
-//        "goals": [
-//        [1,11],[2,11],[3,11],[1,10],[2,10],[3,10],[1,9],[1,8]
-//        ],
-//        "start": [16,3]
-//    }
+        val tiles = levelJson.getValue("tiles") as ArrayList<ArrayList<Int>>
+        var boxes = levelJson.getValue("boxes") as ArrayList<ArrayList<Int>>
+        var goals = levelJson.getValue("goals") as ArrayList<String>
+        var start = levelJson.getValue("start") as ArrayList<Int>
+        var levelData = LevelData(tiles, boxes, goals, start)
 
-    // NSString *pattern = @"(?s)(\\w+):\\s*\\[(.*?)\\](?=,\\r?\\n\\s*\\w+:|$)";
-
-    fun parseLevel() {
-        //val jsonObject: JsonObject = Json.decodeFromString(jsonString)
-        var levelJson = Json.parse(levelText)
-        levelJson.
-    }
-
-
-    // https://www.baeldung.com/kotlin/regular-expressions
-    val regex = """a([bc]+)d?""".toRegex()
-    var matchResult = regex.find("abcb abbd")
-
-    fun getTiles() {
-//        "LevelData(tiles: [])"
-    }
-
-    fun getBoxes() {
-//        "boxes: []"
-    }
-
-    fun getGoals() {
-//        "goals: []"
-    }
-
-    fun getStart() {
-//        ""
+        return levelData
     }
 
 }
