@@ -27,6 +27,11 @@ Restrict movement to 32, 32 grid based system for player, add in object that wil
 
 ![Progress](docs/images/progress/11.png "Progress")
 
+### Level Editor
+
+- [Site](http://alexhedley.com/movem-level-editor/)
+  - [Code](https://github.com/AlexHedley/movem-level-editor)
+
 ## Info
 
 Coder : Hironymus Jumpshoe
