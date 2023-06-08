@@ -1,26 +1,29 @@
 package helpers
 
-import com.soywiz.korgw.platform.*
-import com.soywiz.korio.file.std.*
-import com.soywiz.korio.lang.*
+import Enums.*
 import com.soywiz.korio.serialization.json.*
 
 import models.*
 
-class LevelParser(levelText: String) {
-    private val levelText = levelText
+class LevelParser(private val levelText: String) {
 
-    fun parseLevel(): LevelData {
-        var levelJson = levelText.fromJson() as LinkedHashMap<String, Any?>
+    fun parseLevel(): List<Tile> {
+        val levelJson = levelText.fromJson() as ArrayList<ArrayList<String>>
         println(levelJson)
 
-        val tiles = levelJson.getValue("tiles") as ArrayList<ArrayList<Int>>
-        var boxes = levelJson.getValue("boxes") as ArrayList<ArrayList<Int>>
-        var goals = levelJson.getValue("goals") as ArrayList<String>
-        var start = levelJson.getValue("start") as ArrayList<Int>
-        var levelData = LevelData(tiles, boxes, goals, start)
+        val tiles = mutableListOf<Tile>()
 
-        return levelData
+        levelJson.forEachIndexed { row, rowData ->
+            rowData.forEachIndexed { col, cell ->
+                println(cell)
+                val tileType = TileType from cell
+                val tile: Tile = Tile(tileType!!, col, row)
+                tiles.add(tile)
+            }
+        }
+
+        println(tiles)
+        return tiles
     }
 
 }
