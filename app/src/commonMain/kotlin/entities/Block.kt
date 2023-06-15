@@ -3,10 +3,11 @@ package entities
 import Constants
 import Enums.*
 import Interfaces.*
+import singletons.*
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
-import singletons.*
+import com.soywiz.korim.color.*
 
 /**
  * block
@@ -36,6 +37,9 @@ class Block (
     private var currentMovementAmount: Int = 0
     private val allowedMovementAmount: Int = Constants.TILE_SIZE
     private var movementDirection: Direction = Direction.NORTH
+    private val detectionArea = solidRect(4, 4, Colors.WHITE)
+
+    var preventMove: Boolean = false
 
     /**
      * init
@@ -44,6 +48,62 @@ class Block (
         image.anchor(.5, .5)
         image.scale(1)
         image.position(0, 0)
+
+        detectionArea.anchor(.5, .5)
+        detectionArea.scale(1)
+        detectionArea.position(0, -(Constants.TILE_SIZE))
+
+        detectionArea.onCollision {
+            onBlockCollision(it)
+        }
+
+//        image.onDescendantCollision {
+//            println("desc")
+//        }
+    }
+
+    /**
+     * On Block Collision
+     *
+     * @param it
+     */
+    private fun Container.onBlockCollision(it: View) {
+        var shouldMove = false
+        //preventMove = true
+        if (it !is Dense) {
+            // If it is not dense, don't do anything. i.e. floor.
+            shouldMove = true
+            //return
+        }
+
+        preventMove = !shouldMove
+    }
+
+    /**
+     * Detection Area Reposition
+     *
+     * @param direction
+     */
+    fun detectionAreaReposition(direction: Direction) {
+        when(direction) {
+            Direction.NORTH -> {
+                detectionArea.position(0, -(Constants.TILE_SIZE))
+            }
+
+            Direction.SOUTH -> {
+                detectionArea.position(0, Constants.TILE_SIZE)
+            }
+
+            Direction.WEST -> {
+                detectionArea.position(-(Constants.TILE_SIZE), 0)
+            }
+
+            Direction.EAST -> {
+                detectionArea.position(Constants.TILE_SIZE, 0)
+            }
+        }
+
+        //detectionArea.
     }
 
     /**
@@ -71,6 +131,12 @@ class Block (
         if (currentMovementAmount == allowedMovementAmount) {
             moving = false
         }
+    }
+
+    override fun canMove(direction: Direction): Boolean {
+        detectionAreaReposition(direction)
+        //onBlockCollision();
+        return !preventMove
     }
 
     /**
