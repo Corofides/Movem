@@ -70,7 +70,7 @@ class Block (
 
         detectionArea.onCollision(filter = { it != this }) {
 
-            if (it is Player || it is Dense || it is Floor || it is Block) {
+            if (it is Dense || it is Floor) {
                 println("detectionArea onCollision if player")
                 onBlockCollision(it)
             }
