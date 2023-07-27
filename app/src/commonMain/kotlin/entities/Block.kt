@@ -67,8 +67,10 @@ class Block (
         detectionArea.scale(1)
         detectionArea.position(0, -(Constants.TILE_SIZE))
 
-        detectionArea.onCollision {
-            if (it is Player || it is Wall) {
+
+        detectionArea.onCollision(filter = { it != this }) {
+
+            if (it is Player || it is Dense || it is Floor || it is Block) {
                 println("detectionArea onCollision if player")
                 onBlockCollision(it)
             }
@@ -99,7 +101,7 @@ class Block (
         if (it !is Dense) {
 
             println(it::class.simpleName)
-            println(it::class.qualifiedName)
+            //println(it::class.qualifiedName)
 
             // If it is not dense, don't do anything. i.e. floor.
             shouldMove = true
@@ -138,6 +140,10 @@ class Block (
      * Movement Update Cycle
      */
     fun movementUpdateCycle() {
+        if (!canMove(movementDirection)) {
+            moving = false
+        }
+
         if (moving) {
             when (movementDirection) {
                 Direction.NORTH -> {
