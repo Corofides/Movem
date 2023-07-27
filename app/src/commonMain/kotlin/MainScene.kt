@@ -53,7 +53,7 @@ class MainScene : Scene() {
         val hudBitmap = resourcesVfs["hud.png"].readBitmapSlice()
 
 //        var levelText  = object {}.javaClass.getResource("levels/Level1.txt")?.readText()
-        val levelText = resourcesVfs["levels/Level1.json"].read().toString(Charsets.UTF8)
+        val levelText = resourcesVfs["levels/level1.json"].read().toString(Charsets.UTF8)
         println("--------------------")
         println(levelText)
         println("--------------------")
