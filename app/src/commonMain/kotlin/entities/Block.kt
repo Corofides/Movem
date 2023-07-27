@@ -49,12 +49,29 @@ class Block (
         image.scale(1)
         image.position(0, 0)
 
+        // Is the thing it collides with detecting the collision instead of the detection area?
+        onCollision {
+            // Block A -> Detection Area A -> Block B -> Block B detects collision with Detection Area of Block A
+            // Need reverse?
+            // Block A -> Detection Area A (Reposition) -> Block B detects collision, fire event, to thing colliding.
+            // Block A detection area registers event preventing movement.
+
+            if (it is Player) {
+                //println("Block Collided with Player");
+            }
+
+            //println("Collision");
+        }
+
         detectionArea.anchor(.5, .5)
         detectionArea.scale(1)
         detectionArea.position(0, -(Constants.TILE_SIZE))
 
         detectionArea.onCollision {
-            onBlockCollision(it)
+            if (it is Player || it is Wall) {
+                println("detectionArea onCollision if player")
+                onBlockCollision(it)
+            }
         }
 
 //        image.onDescendantCollision {
@@ -70,7 +87,20 @@ class Block (
     private fun Container.onBlockCollision(it: View) {
         var shouldMove = false
         //preventMove = true
+        if (it is Stage) {
+            return;
+        }
+
+//        if (it is Wall) {
+//            shouldMove = false
+//            return
+//        }
+
         if (it !is Dense) {
+
+            println(it::class.simpleName)
+            println(it::class.qualifiedName)
+
             // If it is not dense, don't do anything. i.e. floor.
             shouldMove = true
             //return
@@ -102,8 +132,6 @@ class Block (
                 detectionArea.position(Constants.TILE_SIZE, 0)
             }
         }
-
-        //detectionArea.
     }
 
     /**

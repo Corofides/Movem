@@ -91,6 +91,7 @@ class Player (
         } else {
             // If it is dense and can move, move the object
             if (!moving) return
+            //objectInFront = it;
             it.move(movementDirection)
         }
     }
