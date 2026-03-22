@@ -3,43 +3,55 @@ package entities
 import Constants
 import Enums.*
 import Interfaces.*
+import helpers.*
 import singletons.*
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.color.*
 
 /**
  * block
  *
  * @param mainImage
  * @param occupiedImage
+ * @param levelGrid
+ * @param gridX
+ * @param gridY
  * @param callback
  */
-inline fun Container.block(mainImage: BitmapSlice<Bitmap>, occupiedImage: BitmapSlice<Bitmap>, callback: @ViewDslMarker Block.() -> Unit = {}) =
-    Block(mainImage, occupiedImage).addTo(this, callback)
+inline fun Container.block(
+    mainImage: BitmapSlice<Bitmap>,
+    occupiedImage: BitmapSlice<Bitmap>,
+    levelGrid: LevelGrid,
+    gridX: Int,
+    gridY: Int,
+    callback: @ViewDslMarker Block.() -> Unit = {}
+) = Block(mainImage, occupiedImage, levelGrid, gridX, gridY).addTo(this, callback)
 
 /**
  * Block
  *
  * @param blockSprite
  * @param occupiedSprite
+ * @param levelGrid The grid used for collision checking
+ * @param gridX Initial grid column
+ * @param gridY Initial grid row
  */
-class Block (
+class Block(
     blockSprite: BitmapSlice<Bitmap>,
-    occupiedSprite: BitmapSlice<Bitmap>
+    occupiedSprite: BitmapSlice<Bitmap>,
+    private val levelGrid: LevelGrid,
+    var gridX: Int,
+    var gridY: Int
 ) : Dense, Moveable, Container() {
 
     // Properties
     override var moving: Boolean = false
     private val image: Image = image(blockSprite)
-    // private val occupiedImage: Image = image(occupiedSprite)
     private var currentMovementAmount: Int = 0
     private val allowedMovementAmount: Int = Constants.TILE_SIZE
     private var movementDirection: Direction = Direction.NORTH
-    private val detectionArea = solidRect(4, 4, Colors.WHITE)
-
-    var preventMove: Boolean = false
+    private var isOnHolder: Boolean = false
 
     /**
      * init
@@ -49,90 +61,13 @@ class Block (
         image.scale(1)
         image.position(0, 0)
 
-        // Is the thing it collides with detecting the collision instead of the detection area?
-        onCollision {
-            // Block A -> Detection Area A -> Block B -> Block B detects collision with Detection Area of Block A
-            // Need reverse?
-            // Block A -> Detection Area A (Reposition) -> Block B detects collision, fire event, to thing colliding.
-            // Block A detection area registers event preventing movement.
+        // Register block in the grid so the player and other blocks cannot enter this cell
+        levelGrid.setEntityAt(gridX, gridY, this)
 
-            if (it is Player) {
-                //println("Block Collided with Player");
-            }
-
-            //println("Collision");
-        }
-
-        detectionArea.anchor(.5, .5)
-        detectionArea.scale(1)
-        detectionArea.position(0, -(Constants.TILE_SIZE))
-
-
-        detectionArea.onCollision(filter = { it != this }) {
-
-            if (it is Dense || it is Floor) {
-                println("detectionArea onCollision if player")
-                onBlockCollision(it)
-            }
-        }
-
-//        image.onDescendantCollision {
-//            println("desc")
-//        }
-    }
-
-    /**
-     * On Block Collision
-     *
-     * @param it
-     */
-    private fun Container.onBlockCollision(it: View) {
-        var shouldMove = false
-        //preventMove = true
-        if (it is Stage) {
-            return;
-        }
-
-//        if (it is Wall) {
-//            shouldMove = false
-//            return
-//        }
-
-        if (it !is Dense) {
-
-            println(it::class.simpleName)
-            //println(it::class.qualifiedName)
-
-            // If it is not dense, don't do anything. i.e. floor.
-            shouldMove = true
-            //return
-        }
-
-        preventMove = !shouldMove
-    }
-
-    /**
-     * Detection Area Reposition
-     *
-     * @param direction
-     */
-    fun detectionAreaReposition(direction: Direction) {
-        when(direction) {
-            Direction.NORTH -> {
-                detectionArea.position(0, -(Constants.TILE_SIZE))
-            }
-
-            Direction.SOUTH -> {
-                detectionArea.position(0, Constants.TILE_SIZE)
-            }
-
-            Direction.WEST -> {
-                detectionArea.position(-(Constants.TILE_SIZE), 0)
-            }
-
-            Direction.EAST -> {
-                detectionArea.position(Constants.TILE_SIZE, 0)
-            }
+        // Check if block starts on a holder (e.g. a pre-solved level)
+        if (levelGrid.isHolderAt(gridX, gridY)) {
+            isOnHolder = true
+            EventManager.sendUpdateEvent(Event.HOLDEROCCUPIED)
         }
     }
 
@@ -140,37 +75,31 @@ class Block (
      * Movement Update Cycle
      */
     fun movementUpdateCycle() {
-        if (!canMove(movementDirection)) {
-            moving = false
-        }
-
         if (moving) {
             when (movementDirection) {
-                Direction.NORTH -> {
-                    this.y -= 1
-                }
-                Direction.SOUTH -> {
-                    this.y += 1
-                }
-                Direction.EAST -> {
-                    this.x += 1
-                }
-                Direction.WEST -> {
-                    this.x -= 1
-                }
+                Direction.NORTH -> this.y -= 1
+                Direction.SOUTH -> this.y += 1
+                Direction.EAST  -> this.x += 1
+                Direction.WEST  -> this.x -= 1
             }
             currentMovementAmount++
         }
 
-        if (currentMovementAmount == allowedMovementAmount) {
+        if (currentMovementAmount >= allowedMovementAmount) {
             moving = false
+            currentMovementAmount = 0
+            // Check whether the block just landed on a holder
+            if (!isOnHolder && levelGrid.isHolderAt(gridX, gridY)) {
+                isOnHolder = true
+                EventManager.sendUpdateEvent(Event.HOLDEROCCUPIED)
+            }
         }
     }
 
     override fun canMove(direction: Direction): Boolean {
-        detectionAreaReposition(direction)
-        //onBlockCollision();
-        return !preventMove
+        if (moving) return false
+        val (tx, ty) = targetGridPosition(direction)
+        return levelGrid.getEntityAt(tx, ty) == null
     }
 
     /**
@@ -180,16 +109,37 @@ class Block (
      * @return Boolean
      */
     override fun move(direction: Direction): Boolean {
-        movementDirection = direction
+        if (moving) return false
+        if (!canMove(direction)) return false
 
-        if (moving) {
-            return false
+        val (tx, ty) = targetGridPosition(direction)
+
+        // If moving off a holder, fire unoccupied event
+        if (isOnHolder) {
+            isOnHolder = false
+            EventManager.sendUpdateEvent(Event.HOLDERUNOCCUPIED)
         }
+
+        // Update grid: vacate current cell, occupy target cell
+        levelGrid.setEntityAt(gridX, gridY, null)
+        levelGrid.setEntityAt(tx, ty, this)
+        gridX = tx
+        gridY = ty
 
         EventManager.sendUpdateEvent(Event.BLOCKMOVED)
         moving = true
         movementDirection = direction
         currentMovementAmount = 0
         return true
+    }
+
+    /**
+     * Returns the grid position one step ahead in the given direction.
+     */
+    private fun targetGridPosition(direction: Direction): Pair<Int, Int> = when (direction) {
+        Direction.NORTH -> Pair(gridX, gridY - 1)
+        Direction.SOUTH -> Pair(gridX, gridY + 1)
+        Direction.EAST  -> Pair(gridX + 1, gridY)
+        Direction.WEST  -> Pair(gridX - 1, gridY)
     }
 }

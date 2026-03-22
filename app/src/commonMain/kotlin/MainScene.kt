@@ -78,14 +78,24 @@ class MainScene : Scene() {
 
             when (it.tileType) {
                 TileType.ANCHOR -> {
-                    holder(holderBitmap) { position(levelGrid.getCellPosition(it.x, it.y)) }
+                    val tileX = it.x
+                    val tileY = it.y
+                    holder(holderBitmap) { position(levelGrid.getCellPosition(tileX, tileY)) }
+                    levelGrid.registerHolder(tileX, tileY)
                 }
                 TileType.WALL -> {
-                    wall(wallBitmap) { position(levelGrid.getCellPosition(it.x, it.y)) }
+                    val tileX = it.x
+                    val tileY = it.y
+                    wall(wallBitmap) {
+                        position(levelGrid.getCellPosition(tileX, tileY))
+                        levelGrid.setEntityAt(tileX, tileY, this)
+                    }
                 }
                 TileType.PLASMACONTAINER -> {
-                    block(blockBitmap, blockOccupiedBitmap) {
-                        position(levelGrid.getCellPosition(it.x, it.y))
+                    val tileX = it.x
+                    val tileY = it.y
+                    block(blockBitmap, blockOccupiedBitmap, levelGrid, tileX, tileY) {
+                        position(levelGrid.getCellPosition(tileX, tileY))
                         addFixedUpdater(30.timesPerSecond) {
                             this.movementUpdateCycle()
                         }
@@ -95,7 +105,11 @@ class MainScene : Scene() {
                     floor(backgroundBitmap) { position(levelGrid.getCellPosition(it.x, it.y)) }
                 }
                 TileType.DROID -> {
-                    player = player(playerSprites) { position(levelGrid.getCellPosition(it.x, it.y)) }
+                    val tileX = it.x
+                    val tileY = it.y
+                    player = player(playerSprites, levelGrid, tileX, tileY) {
+                        position(levelGrid.getCellPosition(tileX, tileY))
+                    }
                 }
                 TileType.EMPTY -> {
                     // Ignore

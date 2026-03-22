@@ -12,3 +12,5 @@ out/
 
 .DS_Store
 .idea
+local.properties
+local.linux.properties
